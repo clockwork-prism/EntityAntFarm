@@ -4,6 +4,7 @@
 
 #include "olcPixelGameEngine.h"
 #include "MainEngine.h"
+#include "ComponentManager.h"
 
 int main()
 {
