@@ -7,7 +7,7 @@ class EntityManager
 public:
 	EntityManager();
 
-	bool is_alive(const Entity e);
+	bool is_alive(const Entity e) const;
 
 	Entity create_entity();
 

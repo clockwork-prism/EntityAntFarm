@@ -5,7 +5,7 @@ EntityManager::EntityManager()
 {
 }
 
-bool EntityManager::is_alive(const Entity e)
+bool EntityManager::is_alive(const Entity e) const
 {
 	try {
 		return this->_registry.at(e.index()) == e.generation();
