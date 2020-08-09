@@ -13,7 +13,7 @@ bool MainEngine::OnUserCreate() {
 		int y = rand() % ScreenHeight();
 		Entity e = entityManager.create_entity();
 		unsigned idx = _physics.add_transform(PositionComponent{ e, {x, y} });
-		_physics.color_at(idx) = ~0;
+		_physics.color_at(idx) = color_to_int32({ 255, 255, 255 });
 	}
 	return true;
 }
