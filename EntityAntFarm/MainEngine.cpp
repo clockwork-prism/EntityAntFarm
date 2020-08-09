@@ -1,34 +1,26 @@
 #include "MainEngine.h"
 
-MainEngine::MainEngine() {
+MainEngine::MainEngine() : _physics{ 10 }, entityManager {} {
 	// Name you application
-	sAppName = "Example";
+	sAppName = "EntityAntFarm";
 }
 
 bool MainEngine::OnUserCreate() {
-	// Called once at the start, so create things here
+	// Called once at the start
 	entityManager = EntityManager();
-	_position = PositionManager();
 	for (int i{}; i < 20; i++) {
 		int x = rand() % ScreenWidth();
 		int y = rand() % ScreenHeight();
 		Entity e = entityManager.create_entity();
-		_position.add_entity_component(e, Position{ e, {x, y} });
+		_physics.add_transform(PositionComponent{ e, {x, y} });
 	}
 	return true;
 }
 
 bool MainEngine::OnUserUpdate(float fElapsedTime) {
-	// called once per frame, draws random coloured pixels
-	_EAF_RenderSystem(_position);
+	// called once per frame
+	render_system(entityManager, _physics.transform, this);
+	ai_system(entityManager, _physics);
+	physics_system(entityManager, _physics, fElapsedTime);
 	return true;
-}
-
-void MainEngine::_EAF_RenderSystem(const PositionManager& position)
-{
-	Clear(olc::BLACK);
-	for (auto it{ position.cbegin() }; it != position.cend(); it++) {
-		if (entityManager.is_alive(it->entity))
-			Draw(it->data[0], it->data[1]);
-	}
 }
