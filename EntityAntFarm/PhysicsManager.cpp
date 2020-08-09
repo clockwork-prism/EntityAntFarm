@@ -31,6 +31,7 @@ unsigned PhysicsManager::add_transform(PositionComponent newPosition)
     if (this->transform.size() == 0) {
         this->transform.push_back(newPosition);
         this->velocity.push_back({ 0, 0, 0, 0 });
+        this->color.push_back(0);
         this->_map[newPosition.entity] = 0;
         return 0;
     }
@@ -44,6 +45,7 @@ unsigned PhysicsManager::add_transform(PositionComponent newPosition)
     this->transform.insert(it, newPosition);
 
     this->velocity.insert(this->velocity.begin() + newIdx, { 0,0,0,0 });
+    this->color.insert(this->color.begin() + newIdx, 0);
 
     for (auto& m: this->_map) {
         if (m.second >= newIdx) m.second++;
@@ -89,4 +91,15 @@ std::array<unsigned, 4> &PhysicsManager::velocity_at(Entity e)
 std::array<unsigned, 4> &PhysicsManager::velocity_at(unsigned idx)
 {
     return this->velocity.at(idx);
+}
+
+int32_t& PhysicsManager::color_at(Entity e)
+{
+    unsigned idx = this->_map.at(e);
+    return this->color_at(idx);
+}
+
+int32_t& PhysicsManager::color_at(unsigned idx)
+{
+    return this->color.at(idx);
 }
