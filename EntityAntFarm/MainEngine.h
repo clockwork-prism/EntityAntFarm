@@ -2,7 +2,11 @@
 #include "olcPixelGameEngine.h"
 #include "EntityManager.h"
 #include "ComponentManager.h"
-#include "PositionManager.h"
+#include "PhysicsManager.h"
+
+#include "render_system.h"
+#include "physics_system.h"
+#include "ai_system.h"
 #include <array>
 #include <vector>
 class MainEngine :
@@ -13,7 +17,7 @@ private:
 
 	EntityManager entityManager;
 
-	PositionManager _position;
+	PhysicsManager _physics;
 
 
 public:
@@ -22,7 +26,5 @@ public:
 	bool OnUserCreate() override;
 
 	bool OnUserUpdate(float fElapsedTime) override;
-
-	void _EAF_RenderSystem(const PositionManager &position);
 };
 
