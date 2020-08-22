@@ -1,14 +1,18 @@
 #include "physics_system.h"
+#include <iostream>
 
-void physics_system(const EntityManager entityManager, PhysicsManager& physics, float elapsedTime)
+void physics_system(const EntityManager& entityManager, POSITION_MANAGER& position, VELOCITY_MANAGER& velocity)
 {
-	for (size_t i{}; i < physics.transform.size(); i++) {
-		if (entityManager.is_alive(physics.transform_at(i).entity)) {
-			physics.transform_at(i).data.at(0) += physics.velocity_at(i).at(0);
-			physics.transform_at(i).data.at(1) += physics.velocity_at(i).at(1);
-		}
-		else {
-			physics.delete_component(i);
+	for (auto vit{ velocity.begin() }; vit != velocity.end(); vit++) {
+		if (entityManager.is_alive(vit->entity)) {
+			try {
+				auto pit{ position.iter_at(vit->entity) };
+				pit->data[0] += vit->data[2];
+				pit->data[1] += vit->data[3];
+			}
+			catch (std::out_of_range& ex) {
+				std::cerr << ex.what();
+			}
 		}
 	}
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "PhysicsManager.h"
 #include "EntityManager.h"
+#include "ManagerMacros.h"
 
-void physics_system(const EntityManager entityManager, PhysicsManager& physics, float elapsedTime);
+void physics_system(const EntityManager& entityManager, POSITION_MANAGER& position, VELOCITY_MANAGER& velocity);

@@ -2,8 +2,7 @@
 #include "olcPixelGameEngine.h"
 #include "EntityManager.h"
 #include "ComponentManager.h"
-#include "PhysicsManager.h"
-
+#include "ManagerMacros.h"
 #include "render_system.h"
 #include "physics_system.h"
 #include "ai_system.h"
@@ -17,7 +16,8 @@ private:
 
 	EntityManager entityManager;
 
-	PhysicsManager _physics;
+	POSITION_MANAGER _position;
+	VELOCITY_MANAGER _velocity;
 
 
 public:

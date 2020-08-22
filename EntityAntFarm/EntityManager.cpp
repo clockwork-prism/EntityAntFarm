@@ -17,13 +17,13 @@ bool EntityManager::is_alive(const Entity e) const
 
 Entity EntityManager::create_entity()
 {
-	unsigned idx;
+	uint32_t idx;
 	if (this->_freeIndeces.size() > this->MIN_FREE) {
 		idx = this->_freeIndeces.front();
 		this->_freeIndeces.pop_front();
 	}
 	else {
-		idx = this->_registry.size();
+		idx = (uint32_t) this->_registry.size();
 		this->_registry.push_back(0);
 	}
 	return Entity(idx, this->_registry[idx]);
