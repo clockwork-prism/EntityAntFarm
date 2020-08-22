@@ -18,6 +18,7 @@ private:
 
 	POSITION_MANAGER _position;
 	VELOCITY_MANAGER _velocity;
+	COLOR_MANAGER _color;
 
 
 public:

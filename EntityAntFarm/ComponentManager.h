@@ -42,6 +42,13 @@ public:
 		return it;
 	}
 
+	auto citer_at(Entity e) const {
+		size_t idx = this->_map.at(e);
+		auto it = this->_components.cbegin();
+		std::advance(it, idx);
+		return it;
+	}
+
 	auto begin() { return this->_components.begin(); }
 	auto end() { return this->_components.end(); }
 
