@@ -1,6 +1,7 @@
 #include "render_system.h"
 
-void render_system(const EntityManager entityManager, const std::vector<PositionComponent>& position, olc::PixelGameEngine* engine) {
+void render_system(const EntityManager& entityManager, const POSITION_MANAGER& position, olc::PixelGameEngine* engine)
+{
 	engine->Clear(olc::BLACK);
 	for (auto it{ position.cbegin() }; it != position.cend(); it++) {
 		if (entityManager.is_alive(it->entity))

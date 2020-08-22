@@ -10,11 +10,11 @@
 template <typename T, template <typename...> class A> 
 class ComponentManager {
 private:
-	std::map <Entity, unsigned> _map;
+	std::map <Entity, size_t> _map;
 	A <T> _components;
 
 	auto _get_component_iterator(Entity e) {
-		unsigned idx = this->_map[e];
+		size_t idx = this->_map[e];
 		auto it = this->_components.begin();
 		std::advance(it, idx);
 		return it;
@@ -29,10 +29,17 @@ public:
 	}
 
 	T at(Entity e) {
-		unsigned idx = this->_map.at(e);
+		size_t idx = this->_map.at(e);
 		auto it = this->_components.begin();
 		std::advance(it, idx);
 		return *it;
+	}
+
+	auto iter_at(Entity e) {
+		size_t idx = this->_map.at(e);
+		auto it = this->_components.begin();
+		std::advance(it, idx);
+		return it;
 	}
 
 	auto begin() { return this->_components.begin(); }
@@ -48,7 +55,7 @@ public:
 			return true;
 		}
 		else {
-			unsigned idx{ this->_components.size() };
+			size_t idx{ this->_components.size() };
 			this->_components.push_back(component);
 			this->_map[e] = idx;
 			return false;
@@ -58,8 +65,8 @@ public:
 	bool remove_entity_component(const Entity e) {
 		if (!this->_map.count(e))
 			return false;
-		unsigned idx = this->_map[e];
-		unsigned lastIdx = this->_components.size() - 1;
+		size_t idx = this->_map[e];
+		size_t lastIdx = this->_components.size() - 1;
 		auto it = this->_get_component_iterator(e);
 		auto lastIt = this->_components.end();
 		lastIt--;
@@ -81,7 +88,7 @@ public:
 
 	void sort_components() {
 		std::sort(this->_components.begin(), this->_components.end());
-		unsigned i{ 0 };
+		size_t i{ 0 };
 		for (auto c : this->_components) {
 			this->_map[c.entity] = i;
 			i++;
@@ -91,7 +98,7 @@ public:
 	template <typename F>
 	void sort_components(F func) {
 		std::sort(this->_components.begin(), this->_components.end(), func);
-		unsigned i{ 0 };
+		size_t i{ 0 };
 		for (auto c : this->_components) {
 			this->_map[c.entity] = i;
 			i++;

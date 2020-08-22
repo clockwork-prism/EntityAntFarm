@@ -1,5 +1,5 @@
 #pragma once
+#include "ManagerMacros.h"
 #include "EntityManager.h"
-#include "PhysicsManager.h"
 
-void ai_system(const EntityManager& entityManager, PhysicsManager& physics);
+void ai_system(const EntityManager& entityManager, VELOCITY_MANAGER& velocity);

@@ -1,7 +1,8 @@
 #pragma once
-#include "Position.h"
+
+#include "ComponentManager.h"
 #include "EntityManager.h"
 #include "olcPixelGameEngine.h"
+#include "ManagerMacros.h"
 
-void render_system(const EntityManager entityManager, const std::vector<PositionComponent>& position, olc::PixelGameEngine* engine);
-
+void render_system(const EntityManager& entityManager, const POSITION_MANAGER &position, olc::PixelGameEngine* engine);
