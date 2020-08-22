@@ -131,14 +131,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ai_system.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainEngine.cpp" />
     <ClCompile Include="olcPixelGameEngine.cpp" />
+    <ClCompile Include="physics_system.cpp" />
     <ClCompile Include="PositionManager.cpp" />
+    <ClCompile Include="render_system.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ai_system.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Entity.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -148,9 +152,12 @@
     </ClInclude>
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="ComponentManager.h" />
+    <ClInclude Include="ManagerMacros.h" />
     <ClInclude Include="MainEngine.h" />
     <ClInclude Include="olcPixelGameEngine.h" />
+    <ClInclude Include="physics_system.h" />
     <ClInclude Include="PositionManager.h" />
+    <ClInclude Include="render_system.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

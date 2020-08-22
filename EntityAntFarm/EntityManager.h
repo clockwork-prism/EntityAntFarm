@@ -7,7 +7,7 @@ class EntityManager
 public:
 	EntityManager();
 
-	bool is_alive(const Entity e);
+	bool is_alive(const Entity e) const;
 
 	Entity create_entity();
 
@@ -15,6 +15,6 @@ public:
 
 private:
 	std::vector <char> _registry;
-	std::deque <unsigned> _freeIndeces;
-	static const unsigned MIN_FREE{ 1024 };
+	std::deque <uint32_t> _freeIndeces;
+	static const uint32_t MIN_FREE{ 1024 };
 };
