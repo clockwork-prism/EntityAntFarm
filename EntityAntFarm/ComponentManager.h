@@ -55,16 +55,25 @@ public:
 	auto cbegin() const { return this->_components.cbegin(); }
 	auto cend() const { return this->_components.cend(); }
 
-	bool add_entity_component(const Entity e, T component) {
+	auto find(Entity e) {
 		if (this->_map.count(e)) {
-			auto it = this->_get_component_iterator(e);
+			return this->iter_at(e);
+		}
+		else {
+			return this->_components.end();
+		}
+	}
+
+	bool add_entity_component(T component) {
+		if (this->_map.count(component.entity)) {
+			auto it = this->_get_component_iterator(component.entity);
 			*it = component;
 			return true;
 		}
 		else {
 			size_t idx{ this->_components.size() };
 			this->_components.push_back(component);
-			this->_map[e] = idx;
+			this->_map[component.entity] = idx;
 			return false;
 		}
 	}

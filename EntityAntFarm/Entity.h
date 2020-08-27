@@ -22,3 +22,4 @@ struct Entity
 
 bool operator<(const Entity& lhs, const Entity& rhs);
 bool operator==(const Entity& lhs, const Entity& rhs);
+bool operator!=(const Entity& lhs, const Entity& rhs);

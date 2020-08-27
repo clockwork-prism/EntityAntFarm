@@ -1,7 +1,11 @@
 #include "physics_system.h"
-#include <iostream>
 
-void physics_system(const EntityManager& entityManager, POSITION_MANAGER& position, VELOCITY_MANAGER& velocity)
+void physics_system(const EntityManager& entityManager, POSITION_MANAGER& position, VELOCITY_MANAGER& velocity, std::vector<std::vector<COLLISION>>& collisionMap)
+{
+	_update_positions(velocity, entityManager, position);
+}
+
+void _update_positions(VELOCITY_MANAGER& velocity, const EntityManager& entityManager, POSITION_MANAGER& position)
 {
 	for (auto vit{ velocity.begin() }; vit != velocity.end(); vit++) {
 		if (entityManager.is_alive(vit->entity)) {
