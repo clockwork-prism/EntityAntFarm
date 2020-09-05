@@ -15,7 +15,7 @@ public:
 	std::vector<PositionComponent> transform;
 	std::vector<std::array<unsigned, 4>> velocity;
 	// std::vector<std::vector<std::array<int, 2>>> mask;
-	//std::vector<int32_t> color;
+	std::vector<int32_t> color;
 
 	void sort_components(unsigned left = 0, unsigned right = 0);
 
@@ -25,6 +25,7 @@ public:
 	void delete_component(T del) {
 		this->transform_at(del) = { INT_MAX, INT_MAX };
 		this->velocity_at(del) = { 0, 0, 0, 0 };
+		this->color_at(del) = 0;
 	}
 
 	void garbage_collect();
@@ -33,5 +34,7 @@ public:
 	PositionComponent &transform_at(unsigned idx);
 	std::array<unsigned, 4> &velocity_at(Entity e);
 	std::array<unsigned, 4> &velocity_at(unsigned idx);
+	int32_t & color_at(Entity e);
+	int32_t & color_at(unsigned idx);
 };
 

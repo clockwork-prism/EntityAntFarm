@@ -5,6 +5,8 @@
 #include "ManagerMacros.h"
 #include "render_system.h"
 #include "physics_system.h"
+#include "collision_system.h"
+#include "resource_system.h"
 #include "ai_system.h"
 #include <array>
 #include <vector>
@@ -18,7 +20,8 @@ private:
 
 	POSITION_MANAGER _position;
 	VELOCITY_MANAGER _velocity;
-
+	COLOR_MANAGER _color;
+	TRAIL_MANAGER _trail;
 
 public:
 	MainEngine();

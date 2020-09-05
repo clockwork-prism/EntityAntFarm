@@ -19,3 +19,8 @@ bool operator==(const Entity& lhs, const Entity& rhs)
 {
 	return lhs.index() == rhs.index();
 }
+
+bool operator!=(const Entity& lhs, const Entity& rhs)
+{
+	return !(lhs == rhs);
+}

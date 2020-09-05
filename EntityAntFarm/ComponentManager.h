@@ -42,22 +42,38 @@ public:
 		return it;
 	}
 
+	auto citer_at(Entity e) const {
+		size_t idx = this->_map.at(e);
+		auto it = this->_components.cbegin();
+		std::advance(it, idx);
+		return it;
+	}
+
 	auto begin() { return this->_components.begin(); }
 	auto end() { return this->_components.end(); }
 
 	auto cbegin() const { return this->_components.cbegin(); }
 	auto cend() const { return this->_components.cend(); }
 
-	bool add_entity_component(const Entity e, T component) {
+	auto find(Entity e) {
 		if (this->_map.count(e)) {
-			auto it = this->_get_component_iterator(e);
+			return this->iter_at(e);
+		}
+		else {
+			return this->_components.end();
+		}
+	}
+
+	bool add_entity_component(T component) {
+		if (this->_map.count(component.entity)) {
+			auto it = this->_get_component_iterator(component.entity);
 			*it = component;
 			return true;
 		}
 		else {
 			size_t idx{ this->_components.size() };
 			this->_components.push_back(component);
-			this->_map[e] = idx;
+			this->_map[component.entity] = idx;
 			return false;
 		}
 	}
@@ -104,4 +120,6 @@ public:
 			i++;
 		}
 	}
+
+	size_t size() const { return this->_components.size(); }
 };
