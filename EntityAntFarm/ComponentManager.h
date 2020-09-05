@@ -120,4 +120,6 @@ public:
 			i++;
 		}
 	}
+
+	size_t size() const { return this->_components.size(); }
 };
