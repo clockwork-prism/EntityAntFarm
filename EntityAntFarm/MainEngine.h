@@ -3,6 +3,7 @@
 #include "EntityManager.h"
 #include "ComponentManager.h"
 #include "ManagerMacros.h"
+#include "ColorManager.h"
 #include "render_system.h"
 #include "physics_system.h"
 #include "collision_system.h"
@@ -20,7 +21,7 @@ private:
 
 	POSITION_MANAGER _position;
 	VELOCITY_MANAGER _velocity;
-	COLOR_MANAGER _color;
+	ColorManager _color;
 	TRAIL_MANAGER _trail;
 
 public:

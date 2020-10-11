@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="ai_system.cpp" />
     <ClCompile Include="collision_system.cpp" />
+    <ClCompile Include="ColorManager.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="main.cpp" />
@@ -147,7 +148,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ai_system.h" />
+    <ClInclude Include="Array2D.h" />
     <ClInclude Include="collision_system.h" />
+    <ClInclude Include="ArrayComponentManager.h" />
+    <ClInclude Include="ColorManager.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Entity.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>

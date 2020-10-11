@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Manager Headers">
+      <UniqueIdentifier>{0d09c5e5-a30e-46b2-9853-260aeaef1040}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager Sources">
+      <UniqueIdentifier>{190572b5-efbe-45d2-93d8-47e479b1c6f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System Headers">
+      <UniqueIdentifier>{b5ee4a88-a4c9-4be5-8420-fe5c40a15067}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System Sources">
+      <UniqueIdentifier>{d464c15c-0318-4ffb-859f-94ad36ec11ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,23 +51,26 @@
     <ClCompile Include="ai_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="render_system.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ManagerMacros.cpp">
+      <Filter>Manager Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorManager.cpp">
+      <Filter>Manager Sources</Filter>
     </ClCompile>
     <ClCompile Include="physics_system.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>System Sources</Filter>
     </ClCompile>
-    <ClCompile Include="ai_system.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="collision_system.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="render_system.cpp">
+      <Filter>System Sources</Filter>
     </ClCompile>
     <ClCompile Include="resource_system.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>System Sources</Filter>
     </ClCompile>
-    <ClCompile Include="ManagerMacros.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="collision_system.cpp">
+      <Filter>System Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ai_system.cpp">
+      <Filter>System Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,23 +101,32 @@
     <ClInclude Include="ai_system.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="render_system.h">
+    <ClInclude Include="Array2D.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrayComponentManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorManager.h">
+      <Filter>Manager Headers</Filter>
     </ClInclude>
     <ClInclude Include="ManagerMacros.h">
-      <Filter>Header Files</Filter>
+      <Filter>Manager Headers</Filter>
     </ClInclude>
     <ClInclude Include="physics_system.h">
-      <Filter>Header Files</Filter>
+      <Filter>System Headers</Filter>
     </ClInclude>
-    <ClInclude Include="ai_system.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="collision_system.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="render_system.h">
+      <Filter>System Headers</Filter>
     </ClInclude>
     <ClInclude Include="resource_system.h">
-      <Filter>Header Files</Filter>
+      <Filter>System Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="collision_system.h">
+      <Filter>System Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ai_system.h">
+      <Filter>System Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

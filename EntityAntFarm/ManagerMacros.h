@@ -1,6 +1,8 @@
 #pragma once
 #include "ComponentManager.h"
 #include "EntityManager.h"
+#include "ArrayComponentManager.h"
+#include "ColorManager.h"
 #include <vector>
 #include <array>
 #include <cstdint>
@@ -22,14 +24,6 @@
 #define VELOCITY_MANAGER ComponentManager<VELOCITY, std::vector>
 #endif // !VELOCITY_MANAGER
 
-#ifndef COLOR
-#define COLOR Component<int32_t>
-#endif // !COLOR
-
-#ifndef COLOR_MANAGER
-#define COLOR_MANAGER ComponentManager<COLOR, std::vector>
-#endif // !COLOR_MANAGER
-
 #ifndef TRAIL
 #define TRAIL Component<uint32_t>
 #endif // !TRAIL
@@ -38,14 +32,9 @@
 #define TRAIL_MANAGER ComponentManager<TRAIL, std::vector>
 #endif // !TRAIL_MANAGER
 
-
 #ifndef COLLISION
 #define COLLISION std::pair<POSITION, double>
 #endif // !COLLISION
-
-std::array<uint8_t, 4> int_to_color(int32_t iColor);
-
-int32_t color_to_int(std::array<uint8_t, 4> aColor);
 
 struct NewTrail {
 	uint32_t trail;
@@ -53,7 +42,7 @@ struct NewTrail {
 	int32_t color;
 };
 
-Entity new_trail(NewTrail& newTrail, EntityManager& entityManager, TRAIL_MANAGER& trails, COLOR_MANAGER& colors, POSITION_MANAGER& positions);
+Entity new_trail(NewTrail& newTrail, EntityManager& entityManager, TRAIL_MANAGER& trails, ColorManager& colors, POSITION_MANAGER& positions);
 
 struct NewAnt {
 	std::array<int32_t, 3> position;
@@ -61,4 +50,4 @@ struct NewAnt {
 	std::array<int, 4> velocity;
 };
 
-Entity new_ant(NewAnt& newAnt, EntityManager& entityManager, POSITION_MANAGER& positions, COLOR_MANAGER& colors, VELOCITY_MANAGER& velocities);
+Entity new_ant(NewAnt& newAnt, EntityManager& entityManager, POSITION_MANAGER& positions, ColorManager& colors, VELOCITY_MANAGER& velocities);

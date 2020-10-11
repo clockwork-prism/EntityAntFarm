@@ -9,7 +9,7 @@
 
 template <typename T, template <typename...> class A> 
 class ComponentManager {
-private:
+protected:
 	std::map <Entity, size_t> _map;
 	A <T> _components;
 
@@ -30,7 +30,14 @@ public:
 
 	T at(Entity e) {
 		size_t idx = this->_map.at(e);
-		auto it = this->_components.begin();
+		auto it = this->begin();
+		std::advance(it, idx);
+		return *it;
+	}
+
+	const T cat(Entity e) const {
+		size_t idx = this->_map.at(e);
+		auto it = this->cbegin();
 		std::advance(it, idx);
 		return *it;
 	}

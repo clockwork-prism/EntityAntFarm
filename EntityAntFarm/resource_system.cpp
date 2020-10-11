@@ -5,13 +5,13 @@ const uint32_t TRAIL_INCR = 2000;
 const uint32_t TRAIL_DECAY = 50;
 
 
-void resource_system(EntityManager& entityManager, POSITION_MANAGER& positions, TRAIL_MANAGER& trails, COLOR_MANAGER& colors, std::vector<std::vector<COLLISION>>& collisionMap)
+void resource_system(EntityManager& entityManager, POSITION_MANAGER& positions, TRAIL_MANAGER& trails, ColorManager& colors, std::vector<std::vector<COLLISION>>& collisionMap)
 {
 	_update_trails(entityManager, positions, trails, colors, collisionMap);
 }
 
 
-void _update_trails(EntityManager& entityManager, POSITION_MANAGER& positions, TRAIL_MANAGER& trails, COLOR_MANAGER& colors, std::vector<std::vector<COLLISION>>& collisionMap)
+void _update_trails(EntityManager& entityManager, POSITION_MANAGER& positions, TRAIL_MANAGER& trails, ColorManager& colors, std::vector<std::vector<COLLISION>>& collisionMap)
 {
 	for (auto collisionVector : collisionMap) {
 		std::pair<bool, std::array<int32_t, 3>> newTrailPosition = { true, collisionVector.at(0).first.data };
@@ -46,7 +46,7 @@ void _update_trails(EntityManager& entityManager, POSITION_MANAGER& positions, T
 	}
 }
 
-void _create_trail(std::pair<bool, std::array<int32_t, 3Ui64>>& newTrailPosition, EntityManager& entityManager, ComponentManager<Component<uint32_t>, std::vector>& trails, ComponentManager<Component<int32_t>, std::vector>& colors, ComponentManager<Component<std::array<int32_t, 3Ui64>>, std::vector>& positions)
+void _create_trail(std::pair<bool, std::array<int32_t, 3Ui64>>& newTrailPosition, EntityManager& entityManager, ComponentManager<Component<uint32_t>, std::vector>& trails, ColorManager& colors, ComponentManager<Component<std::array<int32_t, 3Ui64>>, std::vector>& positions)
 {
 	NewTrail newTrail{
 		TRAIL_INCR,//uint32_t trail;
