@@ -42,15 +42,6 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="render_system.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="physics_system.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ai_system.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ColorManager.cpp">
       <Filter>Manager Sources</Filter>
     </ClCompile>
@@ -71,6 +62,15 @@
     </ClCompile>
     <ClCompile Include="Managers.cpp">
       <Filter>Manager Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="render_system.cpp">
+      <Filter>System Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="physics_system.cpp">
+      <Filter>System Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ai_system.cpp">
+      <Filter>System Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

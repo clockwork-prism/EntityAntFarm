@@ -19,9 +19,9 @@ private:
 
 	EntityManager entityManager;
 
-	PositionManager _position;
-	VelocityManager _velocity;
-	ColorManager _color;
+	PositionManager positionManager;
+	VelocityManager velocityManager;
+	ColorManager colorManager;
 	TrailManager _trail;
 
 public:

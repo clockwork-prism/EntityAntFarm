@@ -8,9 +8,9 @@ MainEngine::MainEngine() {
 bool MainEngine::OnUserCreate() {
 	// Called once at the start, so create things here
 	entityManager = EntityManager();
-	_position = PositionManager();
-	_velocity = VelocityManager();
-	_color = ColorManager();
+	positionManager = PositionManager();
+	velocityManager = VelocityManager();
+	colorManager = ColorManager();
 	for (int i{}; i < 20; i++) {
 		int x = rand() % ScreenWidth();
 		int y = rand() % ScreenHeight();
@@ -19,26 +19,26 @@ bool MainEngine::OnUserCreate() {
 			{color_to_int({255, 255, 255, 255})},
 			{0, 0, 0, 0}
 		};
-		new_ant(newAnt, entityManager, _position, _color, _velocity);
+		new_ant(newAnt, entityManager, positionManager, colorManager, velocityManager);
 	}
 	Entity home = this->entityManager.create_entity();
-	this->_position.add_entity_component({ home, {100,100,1} });
+	this->positionManager.add_entity_component({ home, {100,100,1} });
 	int32_t green = color_to_int({ 0, 255, 0, 255 });
 	Array2D<int32_t> homeArray(3, 3,
 		{ green, green, green,
 		 green, 0,     green,
 		 green, green, green }
 	);
-	this->_color.add_entity_component(home, homeArray);
+	this->colorManager.add_entity_component(home, homeArray);
 	return true;
 }
 
 bool MainEngine::OnUserUpdate(float fElapsedTime) {
 	// called once per frame, draws random coloured pixels
-	render_system(this->entityManager, this->_position, this->_color, this);
-	std::vector<std::vector<Collision>> collisions = collision_system(entityManager, _position, _velocity);
-	resource_system(this->entityManager, this->_position, this->_trail, this->_color, collisions);
-	ai_system(this->entityManager, this->_velocity);
-	physics_system(this->entityManager, this->_position, this->_velocity, collisions);
+	render_system(this->entityManager, this->positionManager, this->colorManager, this);
+	std::vector<std::vector<Collision>> collisions = collision_system(entityManager, positionManager, velocityManager);
+	resource_system(this->entityManager, this->positionManager, this->_trail, this->colorManager, collisions);
+	ai_system(this->entityManager, this->velocityManager);
+	physics_system(this->entityManager, this->positionManager, this->velocityManager, collisions);
 	return true;
 }
