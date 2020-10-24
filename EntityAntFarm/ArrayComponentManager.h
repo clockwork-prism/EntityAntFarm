@@ -66,10 +66,10 @@ public:
 		lastIt--;
 		*it = *lastIt;
 		this->_map[lastIt->entity] = idx;
+		this->_freeIndeces.push_back(it->data);
 		this->_components.erase(lastIt);
 		this->_map.erase(e);
 
-		this->_freeIndeces.push_back(it->data);
 		return true;
 	}
 };
