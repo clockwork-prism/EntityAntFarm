@@ -140,7 +140,7 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainEngine.cpp" />
-    <ClCompile Include="ManagerMacros.cpp" />
+    <ClCompile Include="Managers.cpp" />
     <ClCompile Include="olcPixelGameEngine.cpp" />
     <ClCompile Include="physics_system.cpp" />
     <ClCompile Include="render_system.cpp" />
@@ -161,7 +161,7 @@
     </ClInclude>
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="ComponentManager.h" />
-    <ClInclude Include="ManagerMacros.h" />
+    <ClInclude Include="Managers.h" />
     <ClInclude Include="MainEngine.h" />
     <ClInclude Include="olcPixelGameEngine.h" />
     <ClInclude Include="physics_system.h" />

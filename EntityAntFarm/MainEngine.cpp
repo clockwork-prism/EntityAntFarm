@@ -8,8 +8,8 @@ MainEngine::MainEngine() {
 bool MainEngine::OnUserCreate() {
 	// Called once at the start, so create things here
 	entityManager = EntityManager();
-	_position = POSITION_MANAGER();
-	_velocity = VELOCITY_MANAGER();
+	_position = PositionManager();
+	_velocity = VelocityManager();
 	_color = ColorManager();
 	for (int i{}; i < 20; i++) {
 		int x = rand() % ScreenWidth();
@@ -36,7 +36,7 @@ bool MainEngine::OnUserCreate() {
 bool MainEngine::OnUserUpdate(float fElapsedTime) {
 	// called once per frame, draws random coloured pixels
 	render_system(this->entityManager, this->_position, this->_color, this);
-	std::vector<std::vector<COLLISION>> collisions = collision_system(entityManager, _position, _velocity);
+	std::vector<std::vector<Collision>> collisions = collision_system(entityManager, _position, _velocity);
 	resource_system(this->entityManager, this->_position, this->_trail, this->_color, collisions);
 	ai_system(this->entityManager, this->_velocity);
 	physics_system(this->entityManager, this->_position, this->_velocity, collisions);

@@ -5,18 +5,18 @@ const uint32_t TRAIL_INCR = 2000;
 const uint32_t TRAIL_DECAY = 50;
 
 
-void resource_system(EntityManager& entityManager, POSITION_MANAGER& positions, TRAIL_MANAGER& trails, ColorManager& colors, std::vector<std::vector<COLLISION>>& collisionMap)
+void resource_system(EntityManager& entityManager, PositionManager& positions, TrailManager& trails, ColorManager& colors, std::vector<std::vector<Collision>>& collisionMap)
 {
 	_update_trails(entityManager, positions, trails, colors, collisionMap);
 }
 
 
-void _update_trails(EntityManager& entityManager, POSITION_MANAGER& positions, TRAIL_MANAGER& trails, ColorManager& colors, std::vector<std::vector<COLLISION>>& collisionMap)
+void _update_trails(EntityManager& entityManager, PositionManager& positions, TrailManager& trails, ColorManager& colors, std::vector<std::vector<Collision>>& collisionMap)
 {
 	for (auto collisionVector : collisionMap) {
 		std::pair<bool, std::array<int32_t, 3>> newTrailPosition = { true, collisionVector.at(0).first.data };
 		for (size_t i{ 1 }; i < collisionVector.size(); i++) {
-			COLLISION collision = collisionVector.at(i);
+			Collision collision = collisionVector.at(i);
 			auto it = trails.find(collision.first.entity);
 			if (collision.second == 0 && it != trails.end()) {
 				_incremenet_trail(it, colors, newTrailPosition);

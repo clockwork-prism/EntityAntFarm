@@ -51,9 +51,6 @@
     <ClCompile Include="ai_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ManagerMacros.cpp">
-      <Filter>Manager Sources</Filter>
-    </ClCompile>
     <ClCompile Include="ColorManager.cpp">
       <Filter>Manager Sources</Filter>
     </ClCompile>
@@ -71,6 +68,9 @@
     </ClCompile>
     <ClCompile Include="ai_system.cpp">
       <Filter>System Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers.cpp">
+      <Filter>Manager Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,15 +92,6 @@
     <ClInclude Include="Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="render_system.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="physics_system.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ai_system.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Array2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -108,9 +99,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ColorManager.h">
-      <Filter>Manager Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ManagerMacros.h">
       <Filter>Manager Headers</Filter>
     </ClInclude>
     <ClInclude Include="physics_system.h">
@@ -126,6 +114,18 @@
       <Filter>System Headers</Filter>
     </ClInclude>
     <ClInclude Include="ai_system.h">
+      <Filter>System Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers.h">
+      <Filter>Manager Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ai_system.h">
+      <Filter>System Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="render_system.h">
+      <Filter>System Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="physics_system.h">
       <Filter>System Headers</Filter>
     </ClInclude>
   </ItemGroup>

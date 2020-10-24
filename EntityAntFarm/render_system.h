@@ -3,11 +3,11 @@
 #include "ComponentManager.h"
 #include "EntityManager.h"
 #include "olcPixelGameEngine.h"
-#include "ManagerMacros.h"
+#include "Managers.h"
 #include "ColorManager.h"
 #include <iostream>
 
-void render_system(const EntityManager& entityManager, const POSITION_MANAGER &position, const ColorManager& color, olc::PixelGameEngine* engine);
+void render_system(const EntityManager& entityManager, const PositionManager &position, const ColorManager& color, olc::PixelGameEngine* engine);
 
 void _render_color(const ColorManager& color, std::vector<Component<std::array<int32_t, 3Ui64>>>::const_iterator& it, olc::PixelGameEngine* engine);
 

@@ -1,6 +1,6 @@
 #include "ai_system.h"
 
-void ai_system(const EntityManager& entityManager, VELOCITY_MANAGER& velocity)
+void ai_system(const EntityManager& entityManager, VelocityManager& velocity)
 {
 	for (auto it{ velocity.begin() }; it != velocity.end(); it++) {
 		if (entityManager.is_alive(it->entity)) {

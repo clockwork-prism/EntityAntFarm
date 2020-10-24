@@ -2,7 +2,7 @@
 #include "olcPixelGameEngine.h"
 #include "EntityManager.h"
 #include "ComponentManager.h"
-#include "ManagerMacros.h"
+#include "Managers.h"
 #include "ColorManager.h"
 #include "render_system.h"
 #include "physics_system.h"
@@ -19,10 +19,10 @@ private:
 
 	EntityManager entityManager;
 
-	POSITION_MANAGER _position;
-	VELOCITY_MANAGER _velocity;
+	PositionManager _position;
+	VelocityManager _velocity;
 	ColorManager _color;
-	TRAIL_MANAGER _trail;
+	TrailManager _trail;
 
 public:
 	MainEngine();

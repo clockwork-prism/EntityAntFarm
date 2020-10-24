@@ -1,19 +1,19 @@
 #include "collision_system.h"
 
-std::vector<std::vector<COLLISION>> collision_system(
-    const EntityManager& entityManager, const POSITION_MANAGER& position, 
-    const VELOCITY_MANAGER & velocity, unsigned collisionRange
+std::vector<std::vector<Collision>> collision_system(
+    const EntityManager& entityManager, const PositionManager& position, 
+    const VelocityManager & velocity, unsigned collisionRange
 ) 
 {
-    std::vector<std::vector<std::pair<POSITION, double>>> collisionMap(
-        velocity.size(), std::vector<COLLISION>(100, { {{0}, {0,0,0}}, 0. })
+    std::vector<std::vector<std::pair<Position, double>>> collisionMap(
+        velocity.size(), std::vector<Collision>(100, { {{0}, {0,0,0}}, 0. })
     );
 
     double collisionRange2 = std::pow(collisionRange, 2);
     size_t i{};
     for (auto vit1 = velocity.cbegin(); vit1 != velocity.cend(); vit1++) {
         auto pit1 = position.citer_at(vit1->entity);
-        std::vector<COLLISION> collisionVector{ {*pit1, 0} };
+        std::vector<Collision> collisionVector{ {*pit1, 0} };
         collisionVector.reserve(100);
         for (auto pit2 = position.cbegin(); pit2 != position.cend(); pit2++) {
             if (pit1->entity != pit2->entity) {
@@ -25,7 +25,7 @@ std::vector<std::vector<COLLISION>> collision_system(
             }
         }
         //std::sort(collisionVector.begin(), collisionVector.end(),
-          //  [](COLLISION& lhs, COLLISION& rhs) {
+          //  [](Collision& lhs, Collision& rhs) {
             //    return lhs.second < rhs.second;
             //});
         collisionMap.at(i) = (collisionVector);

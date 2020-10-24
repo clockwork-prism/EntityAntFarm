@@ -1,6 +1,6 @@
 #include "render_system.h"
 
-void render_system(const EntityManager& entityManager, const POSITION_MANAGER& position, const ColorManager& color, olc::PixelGameEngine* engine)
+void render_system(const EntityManager& entityManager, const PositionManager& position, const ColorManager& color, olc::PixelGameEngine* engine)
 {
 	engine->Clear(olc::BLACK);
 	for (auto it{ position.cbegin() }; it != position.cend(); it++) {
