@@ -72,6 +72,9 @@
     <ClCompile Include="ai_system.cpp">
       <Filter>System Sources</Filter>
     </ClCompile>
+    <ClCompile Include="input_system.cpp">
+      <Filter>System Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="olcPixelGameEngine.h">
@@ -127,6 +130,15 @@
     </ClInclude>
     <ClInclude Include="physics_system.h">
       <Filter>System Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenOffset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="input_system.h">
+      <Filter>System Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticComponentManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

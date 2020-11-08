@@ -7,6 +7,7 @@ MainEngine::MainEngine() {
 
 bool MainEngine::OnUserCreate() {
 	// Called once at the start, so create things here
+	screenOffset = ScreenOffset{ ScreenWidth() / 2, ScreenHeight() / 2 };
 	entityManager = EntityManager();
 	positionManager = PositionManager();
 	velocityManager = VelocityManager();
@@ -14,6 +15,8 @@ bool MainEngine::OnUserCreate() {
 	for (int i{}; i < 20; i++) {
 		int x = rand() % ScreenWidth();
 		int y = rand() % ScreenHeight();
+		x -= screenOffset.xOffset;
+		y -= screenOffset.yOffset;
 		NewAnt newAnt{
 			{x, y, 1},
 			{color_to_int({255, 255, 255, 255})},
@@ -22,7 +25,7 @@ bool MainEngine::OnUserCreate() {
 		new_ant(newAnt, entityManager, positionManager, colorManager, velocityManager);
 	}
 	Entity home = this->entityManager.create_entity();
-	this->positionManager.add_entity_component({ home, {100,100,1} });
+	this->positionManager.add_entity_component({ home, {0,0,1} });
 	int32_t green = color_to_int({ 0, 255, 0, 255 });
 	Array2D<int32_t> homeArray(3, 3,
 		{ green, green, green,
@@ -35,7 +38,8 @@ bool MainEngine::OnUserCreate() {
 
 bool MainEngine::OnUserUpdate(float fElapsedTime) {
 	// called once per frame, draws random coloured pixels
-	render_system(this->entityManager, this->positionManager, this->colorManager, this);
+	input_system(this, this->screenOffset, fElapsedTime);
+	render_system(this->entityManager, this->positionManager, this->colorManager, this->screenOffset, this);
 	std::vector<std::vector<Collision>> collisions = collision_system(entityManager, positionManager, velocityManager);
 	resource_system(this->entityManager, this->positionManager, this->_trail, this->colorManager, collisions);
 	ai_system(this->entityManager, this->velocityManager);
