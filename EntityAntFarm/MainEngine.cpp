@@ -12,17 +12,14 @@ bool MainEngine::OnUserCreate() {
 	positionManager = PositionManager();
 	velocityManager = VelocityManager();
 	colorManager = ColorManager();
+	newAntManagers = NewAntManagers{ &entityManager, &positionManager, &colorManager, &velocityManager };
+	newTrailManagers = NewTrailManagers{ &entityManager, &trailManager, &colorManager, &positionManager };
 	for (int i{}; i < 20; i++) {
 		int x = rand() % ScreenWidth();
 		int y = rand() % ScreenHeight();
 		x -= screenOffset.xOffset;
 		y -= screenOffset.yOffset;
-		NewAnt newAnt{
-			{x, y, 1},
-			{color_to_int({255, 255, 255, 255})},
-			{0, 0, 0, 0}
-		};
-		new_ant(newAnt, entityManager, positionManager, colorManager, velocityManager);
+		new_ant({ x, y, 1 }, newAntManagers);
 	}
 	Entity home = this->entityManager.create_entity();
 	this->positionManager.add_entity_component({ home, {0,0,1} });
@@ -41,7 +38,7 @@ bool MainEngine::OnUserUpdate(float fElapsedTime) {
 	input_system(this, this->screenOffset, fElapsedTime);
 	render_system(this->entityManager, this->positionManager, this->colorManager, this->screenOffset, this);
 	std::vector<std::vector<Collision>> collisions = collision_system(entityManager, positionManager, velocityManager);
-	resource_system(this->entityManager, this->positionManager, this->_trail, this->colorManager, collisions);
+	resource_system(this->entityManager, this->positionManager, this->trailManager, this->colorManager, collisions);
 	ai_system(this->entityManager, this->velocityManager);
 	physics_system(this->entityManager, this->positionManager, this->velocityManager, collisions);
 	return true;

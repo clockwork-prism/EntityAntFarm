@@ -3,6 +3,7 @@
 #include "EntityManager.h"
 #include "ComponentManager.h"
 #include "Managers.h"
+#include "Generators.h"
 #include "ColorManager.h"
 #include "render_system.h"
 #include "physics_system.h"
@@ -23,7 +24,10 @@ private:
 	PositionManager positionManager;
 	VelocityManager velocityManager;
 	ColorManager colorManager;
-	TrailManager _trail;
+	TrailManager trailManager;
+
+	NewAntManagers newAntManagers;
+	NewTrailManagers newTrailManagers;
 
 public:
 	MainEngine();

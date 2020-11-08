@@ -13,6 +13,7 @@ void resource_system(EntityManager& entityManager, PositionManager& positions, T
 
 void _update_trails(EntityManager& entityManager, PositionManager& positions, TrailManager& trails, ColorManager& colors, std::vector<std::vector<Collision>>& collisionMap)
 {
+	NewTrailManagers newTrailManagers{ &entityManager, &trails, &colors, &positions };
 	for (auto collisionVector : collisionMap) {
 		std::pair<bool, std::array<int32_t, 3>> newTrailPosition = { true, collisionVector.at(0).first.data };
 		for (size_t i{ 1 }; i < collisionVector.size(); i++) {
@@ -24,7 +25,7 @@ void _update_trails(EntityManager& entityManager, PositionManager& positions, Tr
 			}
 		}
 		if (newTrailPosition.first) {
-			_create_trail(newTrailPosition, entityManager, trails, colors, positions);
+			new_trail(TRAIL_INCR, newTrailPosition.second, newTrailManagers);
 		}
 	}
 	std::vector<Entity> toDelete{};
@@ -46,22 +47,11 @@ void _update_trails(EntityManager& entityManager, PositionManager& positions, Tr
 	}
 }
 
-void _create_trail(std::pair<bool, std::array<int32_t, 3Ui64>>& newTrailPosition, EntityManager& entityManager, ComponentManager<Component<uint32_t>, std::vector>& trails, ColorManager& colors, ComponentManager<Component<std::array<int32_t, 3Ui64>>, std::vector>& positions)
-{
-	NewTrail newTrail{
-		TRAIL_INCR,//uint32_t trail;
-		newTrailPosition.second,//std::array<int32_t, 3> position;
-		color_to_int({ 0, 0, 0, 255 })//int32_t color;
-	};
-	new_trail(newTrail, entityManager, trails, colors, positions);
-}
-
 void _incremenet_trail(std::vector<Component<uint32_t>>::iterator & trailIterator, ComponentManager<Component<int32_t>, std::vector>& colors, std::pair<bool, std::array<int32_t, 3Ui64>>& newTrail)
 {
 	auto cit = colors.iter_at(trailIterator->entity);
 	trailIterator->data += TRAIL_INCR;
 	if (trailIterator->data > TRAIL_MAX) trailIterator->data = TRAIL_MAX;
-	newTrail.first = false;
 }
 
 void _update_trail_color(std::vector<Component<int32_t>>::iterator& cit, std::vector<Component<uint32_t>>::iterator& it)

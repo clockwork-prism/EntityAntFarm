@@ -60,9 +60,6 @@
     <ClCompile Include="ai_system.cpp">
       <Filter>System Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Managers.cpp">
-      <Filter>Manager Sources</Filter>
-    </ClCompile>
     <ClCompile Include="render_system.cpp">
       <Filter>System Sources</Filter>
     </ClCompile>
@@ -74,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="input_system.cpp">
       <Filter>System Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Generators.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +138,9 @@
       <Filter>System Headers</Filter>
     </ClInclude>
     <ClInclude Include="StaticComponentManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Generators.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

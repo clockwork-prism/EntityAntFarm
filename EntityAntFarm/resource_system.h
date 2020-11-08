@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Managers.h"
+#include "Generators.h"
 #include "EntityManager.h"
 #include "ColorManager.h"
 
