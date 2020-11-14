@@ -25,9 +25,11 @@ private:
 	VelocityManager velocityManager;
 	ColorManager colorManager;
 	TrailManager trailManager;
+	FoodManager foodManager;
 
-	NewAntManagers newAntManagers;
-	NewTrailManagers newTrailManagers;
+	AntGenerator antGenerator;
+	TrailGenerator trailGenerator;
+	FoodGenerator foodGenerator;
 
 public:
 	MainEngine();

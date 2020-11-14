@@ -13,7 +13,12 @@ void resource_system(EntityManager& entityManager, PositionManager& positions, T
 
 void _update_trails(EntityManager& entityManager, PositionManager& positions, TrailManager& trails, ColorManager& colors, std::vector<std::vector<Collision>>& collisionMap)
 {
-	NewTrailManagers newTrailManagers{ &entityManager, &trails, &colors, &positions };
+	TrailGenerator trailGenerator(
+		&entityManager,
+		&positions,
+		&colors,
+		&trails
+	);
 	for (auto collisionVector : collisionMap) {
 		std::pair<bool, std::array<int32_t, 3>> newTrailPosition = { true, collisionVector.at(0).first.data };
 		for (size_t i{ 1 }; i < collisionVector.size(); i++) {
@@ -25,7 +30,7 @@ void _update_trails(EntityManager& entityManager, PositionManager& positions, Tr
 			}
 		}
 		if (newTrailPosition.first) {
-			new_trail(TRAIL_INCR, newTrailPosition.second, newTrailManagers);
+			trailGenerator.new_trail(TRAIL_INCR, newTrailPosition.second);
 		}
 	}
 	std::vector<Entity> toDelete{};

@@ -12,14 +12,41 @@ bool MainEngine::OnUserCreate() {
 	positionManager = PositionManager();
 	velocityManager = VelocityManager();
 	colorManager = ColorManager();
-	newAntManagers = NewAntManagers{ &entityManager, &positionManager, &colorManager, &velocityManager };
-	newTrailManagers = NewTrailManagers{ &entityManager, &trailManager, &colorManager, &positionManager };
+	foodManager = FoodManager();
+
+	antGenerator = AntGenerator(
+		&entityManager,
+		&positionManager,
+		&colorManager,
+		&foodManager,
+		&velocityManager
+	);
+	trailGenerator = TrailGenerator(
+		&entityManager,
+		&positionManager,
+		&colorManager,
+		&trailManager
+	);
+	foodGenerator = FoodGenerator(
+		&entityManager,
+		&positionManager,
+		&colorManager,
+		&foodManager
+	);
+
 	for (int i{}; i < 20; i++) {
 		int x = rand() % ScreenWidth();
 		int y = rand() % ScreenHeight();
 		x -= screenOffset.xOffset;
 		y -= screenOffset.yOffset;
-		new_ant({ x, y, 1 }, newAntManagers);
+		antGenerator.new_ant({ x, y, 1 });
+	}
+	for (int i{}; i < 5; i++) {
+		int x = rand() % ScreenWidth();
+		int y = rand() % ScreenHeight();
+		x -= screenOffset.xOffset;
+		y -= screenOffset.yOffset;
+		foodGenerator.new_food_cluster(3, 50, { x, y, 1 });
 	}
 	Entity home = this->entityManager.create_entity();
 	this->positionManager.add_entity_component({ home, {0,0,1} });

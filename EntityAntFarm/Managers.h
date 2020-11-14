@@ -20,4 +20,8 @@ typedef Component<uint32_t> Trail;
 
 typedef ComponentManager<Trail, std::vector>  TrailManager;
 
+typedef Component<uint32_t> Food;
+
+typedef ComponentManager<Food, std::vector> FoodManager;
+
 typedef std::pair<Position, double> Collision;
