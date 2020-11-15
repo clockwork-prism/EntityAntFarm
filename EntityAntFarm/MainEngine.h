@@ -30,13 +30,18 @@ private:
 	TrailGenerator* trailGenerator;
 	FoodGenerator* foodGenerator;
 
+	InputSystem* inputSystem;
+	RenderSystem* renderSystem;
 	ResourceSystem* resourceSystem;
 	AISystem* aiSystem;
+	PhysicsSystem* physicsSystem;
 
 public:
 	MainEngine();
 
 	bool OnUserCreate() override;
+
+	void starting_conditions_setup();
 
 	bool OnUserUpdate(float fElapsedTime) override;
 

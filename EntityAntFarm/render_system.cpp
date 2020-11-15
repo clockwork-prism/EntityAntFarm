@@ -1,17 +1,12 @@
 #include "render_system.h"
 
-void render_system(
-	const EntityManager& entityManager, 
-	const PositionManager& position, 
-	const ColorManager& color, 
-	const ScreenOffset& offset,
-	olc::PixelGameEngine* engine)
+void RenderSystem::step()
 {
 	engine->Clear(olc::BLACK);
-	for (auto it{ position.cbegin() }; it != position.cend(); it++) {
-		if (entityManager.is_alive(it->entity)) {
+	for (auto it{ positionManager->cbegin() }; it != positionManager->cend(); it++) {
+		if (entityManager->is_alive(it->entity)) {
 			try {
-				_render_color(color, it, offset, engine);
+				_render_color(it);
 			}
 			catch (std::out_of_range& ex) {
 			}
@@ -19,42 +14,30 @@ void render_system(
 	}
 }
 
-void _render_color(
-	const ColorManager& color,
-	std::vector<Position>::const_iterator& it,
-	const ScreenOffset& offset,
-	olc::PixelGameEngine* engine)
+void RenderSystem::_render_color(std::vector<Position>::const_iterator& it)
 {
-	auto cit = color.citer_at(it->entity);
+	auto cit = colorManager->citer_at(it->entity);
 	if (cit->data < 0) {
-		_render_pixel(cit->data, engine, it, offset);
+		_render_pixel(cit->data, it);
 	}
 	else {
-		_render_pixel_array(color, engine, it, offset);
+		_render_pixel_array(it);
 	}
 }
 
-void _render_pixel(
-	const int32_t& icolor,
-	olc::PixelGameEngine* engine,
-	std::vector<Position>::const_iterator& it,
-	const ScreenOffset& offset)
+void RenderSystem::_render_pixel(const int32_t& icolor, std::vector<Position>::const_iterator& it)
 {
 	std::array<uint8_t, 4> col = int_to_color(icolor);
-	engine->Draw(it->data[0] + offset.xOffset, it->data[1] + offset.yOffset, { col[0], col[1], col[2], col[3] });
+	engine->Draw(it->data[0] + offset->xOffset, it->data[1] + offset->yOffset, { col[0], col[1], col[2], col[3] });
 }
 
-void _render_pixel_array(
-	const ColorManager& color,
-	olc::PixelGameEngine* engine,
-	std::vector<Position>::const_iterator& it,
-	const ScreenOffset& offset)
+void RenderSystem::_render_pixel_array(std::vector<Position>::const_iterator& it)
 {
-	const Array2D<int32_t> colorArray = color.car_at(it->entity);
+	const Array2D<int32_t> colorArray = colorManager->car_at(it->entity);
 	for (size_t r{}; r < colorArray.shape()[0]; r++) {
 		for (size_t c{}; c < colorArray.shape()[1]; c++) {
 			std::array<uint8_t, 4> col = int_to_color(colorArray.cat(r, c));
-			engine->Draw(it->data[0] + (int)r + offset.xOffset, it->data[1] + (int)c + offset.yOffset, { col[0], col[1], col[2], col[3] });
+			engine->Draw(it->data[0] + (int)r + offset->xOffset, it->data[1] + (int)c + offset->yOffset, { col[0], col[1], col[2], col[3] });
 		}
 	}
 }
