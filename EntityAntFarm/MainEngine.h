@@ -31,6 +31,7 @@ private:
 	FoodGenerator* foodGenerator;
 
 	ResourceSystem* resourceSystem;
+	AISystem* aiSystem;
 
 public:
 	MainEngine();

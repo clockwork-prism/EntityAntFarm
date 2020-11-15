@@ -39,6 +39,10 @@ bool MainEngine::OnUserCreate() {
 	);
 
 	// Systems
+	aiSystem = new AISystem(
+		entityManager,
+		velocityManager
+	);
 	resourceSystem = new ResourceSystem(
 		entityManager,
 		positionManager,
@@ -77,7 +81,7 @@ bool MainEngine::OnUserUpdate(float fElapsedTime) {
 	render_system(*entityManager, *positionManager, *colorManager, screenOffset, this);
 	std::vector<std::vector<Collision>> collisions = collision_system(*entityManager, *positionManager, *velocityManager);
 	resourceSystem->step(collisions);
-	ai_system(*entityManager, *velocityManager);
+	aiSystem->step();
 	physics_system(*entityManager, *positionManager, *velocityManager, collisions);
 	return true;
 }
@@ -96,6 +100,7 @@ bool MainEngine::OnUserDestroy() {
 	delete foodGenerator;
 
 	// Systems
+	delete aiSystem;
 	delete resourceSystem;
 
 	return true;
