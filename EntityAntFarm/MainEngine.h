@@ -31,6 +31,8 @@ private:
 	TrailGenerator trailGenerator;
 	FoodGenerator foodGenerator;
 
+	ResourceSystem resourceSystem;
+
 public:
 	MainEngine();
 

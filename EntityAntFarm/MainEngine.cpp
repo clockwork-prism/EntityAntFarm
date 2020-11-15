@@ -8,12 +8,15 @@ MainEngine::MainEngine() {
 bool MainEngine::OnUserCreate() {
 	// Called once at the start, so create things here
 	screenOffset = ScreenOffset{ ScreenWidth() / 2, ScreenHeight() / 2 };
+
+	// Managers
 	entityManager = EntityManager();
 	positionManager = PositionManager();
 	velocityManager = VelocityManager();
 	colorManager = ColorManager();
 	foodManager = FoodManager();
 
+	// Generators
 	antGenerator = AntGenerator(
 		&entityManager,
 		&positionManager,
@@ -32,6 +35,14 @@ bool MainEngine::OnUserCreate() {
 		&positionManager,
 		&colorManager,
 		&foodManager
+	);
+
+	// Systems
+	resourceSystem = ResourceSystem(
+		&entityManager,
+		&positionManager,
+		&colorManager,
+		&trailManager
 	);
 
 	for (int i{}; i < 20; i++) {
@@ -61,11 +72,10 @@ bool MainEngine::OnUserCreate() {
 }
 
 bool MainEngine::OnUserUpdate(float fElapsedTime) {
-	// called once per frame, draws random coloured pixels
 	input_system(this, this->screenOffset, fElapsedTime);
 	render_system(this->entityManager, this->positionManager, this->colorManager, this->screenOffset, this);
 	std::vector<std::vector<Collision>> collisions = collision_system(entityManager, positionManager, velocityManager);
-	resource_system(this->entityManager, this->positionManager, this->trailManager, this->colorManager, collisions);
+	resourceSystem.step(collisions);
 	ai_system(this->entityManager, this->velocityManager);
 	physics_system(this->entityManager, this->positionManager, this->velocityManager, collisions);
 	return true;
