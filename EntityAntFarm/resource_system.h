@@ -19,10 +19,10 @@ private:
 	void _update_trail_color(std::vector<Color>::iterator& cit, std::vector<Trail>::iterator& it);
 public:
 	ResourceSystem(
-		EntityManager* _entityManager = nullptr,
-		PositionManager* _positionManager = nullptr,
-		ColorManager* _colorManager = nullptr,
-		TrailManager* _trailManager = nullptr
+		EntityManager* _entityManager,
+		PositionManager* _positionManager,
+		ColorManager* _colorManager,
+		TrailManager* _trailManager
 	) : entityManager{ _entityManager },
 		positionManager{ _positionManager },
 		colorManager{ _colorManager },

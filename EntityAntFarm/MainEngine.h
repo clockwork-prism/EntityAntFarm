@@ -19,19 +19,18 @@ class MainEngine :
 private:
 	ScreenOffset screenOffset;
 
-	EntityManager entityManager;
+	EntityManager* entityManager;
+	PositionManager* positionManager;
+	VelocityManager* velocityManager;
+	ColorManager* colorManager;
+	TrailManager* trailManager;
+	FoodManager* foodManager;
 
-	PositionManager positionManager;
-	VelocityManager velocityManager;
-	ColorManager colorManager;
-	TrailManager trailManager;
-	FoodManager foodManager;
+	AntGenerator* antGenerator;
+	TrailGenerator* trailGenerator;
+	FoodGenerator* foodGenerator;
 
-	AntGenerator antGenerator;
-	TrailGenerator trailGenerator;
-	FoodGenerator foodGenerator;
-
-	ResourceSystem resourceSystem;
+	ResourceSystem* resourceSystem;
 
 public:
 	MainEngine();
@@ -39,5 +38,7 @@ public:
 	bool OnUserCreate() override;
 
 	bool OnUserUpdate(float fElapsedTime) override;
+
+	bool OnUserDestroy() override;
 };
 

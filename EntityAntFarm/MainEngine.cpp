@@ -10,39 +10,40 @@ bool MainEngine::OnUserCreate() {
 	screenOffset = ScreenOffset{ ScreenWidth() / 2, ScreenHeight() / 2 };
 
 	// Managers
-	entityManager = EntityManager();
-	positionManager = PositionManager();
-	velocityManager = VelocityManager();
-	colorManager = ColorManager();
-	foodManager = FoodManager();
+	entityManager = new EntityManager();
+	positionManager = new PositionManager();
+	colorManager = new ColorManager();
+	foodManager = new FoodManager();
+	trailManager = new TrailManager();
+	velocityManager = new VelocityManager();
 
 	// Generators
-	antGenerator = AntGenerator(
-		&entityManager,
-		&positionManager,
-		&colorManager,
-		&foodManager,
-		&velocityManager
+	antGenerator = new AntGenerator(
+		entityManager,
+		positionManager,
+		colorManager,
+		foodManager,
+		velocityManager
 	);
-	trailGenerator = TrailGenerator(
-		&entityManager,
-		&positionManager,
-		&colorManager,
-		&trailManager
+	trailGenerator = new TrailGenerator(
+		entityManager,
+		positionManager,
+		colorManager,
+		trailManager
 	);
-	foodGenerator = FoodGenerator(
-		&entityManager,
-		&positionManager,
-		&colorManager,
-		&foodManager
+	foodGenerator = new FoodGenerator(
+		entityManager,
+		positionManager,
+		colorManager,
+		foodManager
 	);
 
 	// Systems
-	resourceSystem = ResourceSystem(
-		&entityManager,
-		&positionManager,
-		&colorManager,
-		&trailManager
+	resourceSystem = new ResourceSystem(
+		entityManager,
+		positionManager,
+		colorManager,
+		trailManager
 	);
 
 	for (int i{}; i < 20; i++) {
@@ -50,33 +51,52 @@ bool MainEngine::OnUserCreate() {
 		int y = rand() % ScreenHeight();
 		x -= screenOffset.xOffset;
 		y -= screenOffset.yOffset;
-		antGenerator.new_ant({ x, y, 1 });
+		antGenerator->new_ant({ x, y, 1 });
 	}
 	for (int i{}; i < 5; i++) {
 		int x = rand() % ScreenWidth();
 		int y = rand() % ScreenHeight();
 		x -= screenOffset.xOffset;
 		y -= screenOffset.yOffset;
-		foodGenerator.new_food_cluster(3, 50, { x, y, 1 });
+		foodGenerator->new_food_cluster(3, 50, { x, y, 1 });
 	}
-	Entity home = this->entityManager.create_entity();
-	this->positionManager.add_entity_component({ home, {0,0,1} });
+	Entity home = entityManager->create_entity();
+	positionManager->add_entity_component({ home, {0,0,1} });
 	int32_t green = color_to_int({ 0, 255, 0, 255 });
 	Array2D<int32_t> homeArray(3, 3,
 		{ green, green, green,
 		 green, 0,     green,
 		 green, green, green }
 	);
-	this->colorManager.add_entity_component(home, homeArray);
+	colorManager->add_entity_component(home, homeArray);
 	return true;
 }
 
 bool MainEngine::OnUserUpdate(float fElapsedTime) {
 	input_system(this, this->screenOffset, fElapsedTime);
-	render_system(this->entityManager, this->positionManager, this->colorManager, this->screenOffset, this);
-	std::vector<std::vector<Collision>> collisions = collision_system(entityManager, positionManager, velocityManager);
-	resourceSystem.step(collisions);
-	ai_system(this->entityManager, this->velocityManager);
-	physics_system(this->entityManager, this->positionManager, this->velocityManager, collisions);
+	render_system(*entityManager, *positionManager, *colorManager, screenOffset, this);
+	std::vector<std::vector<Collision>> collisions = collision_system(*entityManager, *positionManager, *velocityManager);
+	resourceSystem->step(collisions);
+	ai_system(*entityManager, *velocityManager);
+	physics_system(*entityManager, *positionManager, *velocityManager, collisions);
+	return true;
+}
+
+bool MainEngine::OnUserDestroy() {
+	delete entityManager;
+	delete positionManager;
+	delete colorManager;
+	delete foodManager;
+	delete trailManager;
+	delete velocityManager;
+
+	// Generators
+	delete antGenerator;
+	delete trailGenerator;
+	delete foodGenerator;
+
+	// Systems
+	delete resourceSystem;
+
 	return true;
 }
