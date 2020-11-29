@@ -58,6 +58,7 @@ bool MainEngine::OnUserCreate() {
 	);
 	aiSystem = new AISystem(
 		entityManager,
+		positionManager,
 		velocityManager
 	);
 	physicsSystem = new PhysicsSystem(
@@ -75,7 +76,7 @@ bool MainEngine::OnUserUpdate(float fElapsedTime) {
 	renderSystem->step();
 	std::vector<std::vector<Collision>> collisions = collision_system(*entityManager, *positionManager, *velocityManager);
 	resourceSystem->step(collisions);
-	aiSystem->step();
+	aiSystem->step(collisions);
 	physicsSystem->step(collisions);
 	return true;
 }
@@ -108,10 +109,10 @@ bool MainEngine::OnUserDestroy() {
 void MainEngine::starting_conditions_setup()
 {
 	for (int i{}; i < 20; i++) {
-		int x = rand() % ScreenWidth();
-		int y = rand() % ScreenHeight();
-		x -= screenOffset.xOffset;
-		y -= screenOffset.yOffset;
+		int x = rand() % (ScreenWidth() / 8);
+		int y = rand() % (ScreenHeight() / 8);
+		x -= screenOffset.xOffset/8;
+		y -= screenOffset.yOffset/8;
 		antGenerator->new_ant({ x, y, 1 });
 	}
 	for (int i{}; i < 5; i++) {
