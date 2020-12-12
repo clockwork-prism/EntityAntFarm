@@ -15,6 +15,10 @@ protected:
 
 	auto _get_component_iterator(Entity e) {
 		size_t idx = this->_map[e];
+		return this->_get_component_iterator(idx);
+	}
+
+	auto _get_component_iterator(size_t idx) {
 		auto it = this->_components.begin();
 		std::advance(it, idx);
 		return it;
@@ -23,6 +27,35 @@ protected:
 public:
 	ComponentManager() = default;
 
+	T operator[] (size_t idx) {
+		auto it = this->_get_component_iterator(idx);
+		return *it;
+	}
+
+	T at(size_t idx) {
+		auto it = this->begin();
+		std::advance(it, idx);
+		return *it;
+	}
+
+	const T cat(size_t idx) const {
+		auto it = this->cbegin();
+		std::advance(it, idx);
+		return *it;
+	}
+
+	auto iter_at(size_t idx) {
+		auto it = this->_components.begin();
+		std::advance(it, idx);
+		return it;
+	}
+
+	auto citer_at(size_t idx) const {
+		auto it = this->_components.cbegin();
+		std::advance(it, idx);
+		return it;
+	}
+
 	T operator[] (const Entity e) {
 		auto it = this->_get_component_iterator(e);
 		return *it;
@@ -30,30 +63,22 @@ public:
 
 	T at(Entity e) {
 		size_t idx = this->_map.at(e);
-		auto it = this->begin();
-		std::advance(it, idx);
-		return *it;
+		return this->at(idx);
 	}
 
 	const T cat(Entity e) const {
 		size_t idx = this->_map.at(e);
-		auto it = this->cbegin();
-		std::advance(it, idx);
-		return *it;
+		return this->cat(idx);
 	}
 
 	auto iter_at(Entity e) {
 		size_t idx = this->_map.at(e);
-		auto it = this->_components.begin();
-		std::advance(it, idx);
-		return it;
+		return this->iter_at(idx);
 	}
 
 	auto citer_at(Entity e) const {
 		size_t idx = this->_map.at(e);
-		auto it = this->_components.cbegin();
-		std::advance(it, idx);
-		return it;
+		return this->citer_at(idx);
 	}
 
 	auto begin() { return this->_components.begin(); }

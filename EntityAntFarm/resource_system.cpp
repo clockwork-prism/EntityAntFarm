@@ -4,6 +4,7 @@
 void ResourceSystem::step(std::vector<std::vector<Collision>>& collisionMap)
 {
 	_update_trails(collisionMap);
+	_transfer_food(collisionMap);
 }
 
 
@@ -60,4 +61,10 @@ void ResourceSystem::_update_trail_color(std::vector<Color>::iterator& cit, std:
 	cit->data = color_to_int({ 0, 0, (uint8_t)(255 * (double)it->data / TRAIL_MAX), 255 });
 }
 
-
+void ResourceSystem::_transfer_food(std::vector<std::vector<Collision>>& collisionMap) {
+	for (auto collisionVector : collisionMap) {
+		for (size_t i{ 1 }; i < collisionVector.size(); i++) {
+			
+		}
+	}
+}

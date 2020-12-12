@@ -14,6 +14,8 @@ private:
 
 	void _update_trails(std::vector<std::vector<Collision>>& collisionMap);
 
+	void _transfer_food(std::vector<std::vector<Collision>>& collisionMap);
+
 	void _incremenet_trail(std::vector<Trail>::iterator& trailIterator, std::pair<bool, std::array<int32_t, 3Ui64>>& newTrail);
 
 	void _update_trail_color(std::vector<Color>::iterator& cit, std::vector<Trail>::iterator& it);
