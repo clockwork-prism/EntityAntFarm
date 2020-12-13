@@ -29,18 +29,21 @@ private:
 	ColorManager* colorManager;
 	FoodManager* foodManager;
 	VelocityManager* velocityManager;
+	AIManager* aiManager;
 public:
 	AntGenerator(
 		EntityManager* _entityManager = nullptr,
 		PositionManager* _positionManager = nullptr,
 		ColorManager* _colorManager = nullptr,
 		FoodManager* _foodManager = nullptr,
-		VelocityManager* _velocityManager = nullptr
+		VelocityManager* _velocityManager = nullptr,
+		AIManager* _aiManager = nullptr
 	) : entityManager{ _entityManager },
 		positionManager{ _positionManager },
 		colorManager{ _colorManager },
 		foodManager{_foodManager},
-		velocityManager{ _velocityManager } {}
+		velocityManager{ _velocityManager },
+		aiManager{ _aiManager } {}
 
 	Entity new_ant(std::array<int32_t, 3> position);
 };
@@ -63,5 +66,6 @@ public:
 		foodManager{ _foodManager } {}
 
 	Entity new_food(uint32_t food, std::array<int32_t, 3> position);
-	void new_food_cluster(int32_t n, uint32_t food, std::array<int32_t, 3> position);
+	void new_food_cluster(int32_t n, uint32_t food, std::array<int32_t, 3> position); 
+	void destroy_food(Entity e);
 };

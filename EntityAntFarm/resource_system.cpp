@@ -62,9 +62,34 @@ void ResourceSystem::_update_trail_color(std::vector<Color>::iterator& cit, std:
 }
 
 void ResourceSystem::_transfer_food(std::vector<std::vector<Collision>>& collisionMap) {
+	FoodGenerator foodGenerator{
+		this->entityManager,
+		this->positionManager,
+		this->colorManager,
+		this->foodManager
+	};
+	std::vector<Entity> toDelete{};
 	for (auto collisionVector : collisionMap) {
+		auto antFit = this->foodManager->iter_at(collisionVector.at(0).first.entity);
 		for (size_t i{ 1 }; i < collisionVector.size(); i++) {
-			
+			Collision col = collisionVector.at(i);
+			if (col.second < 2) {
+				auto fit = this->foodManager->find(col.first.entity);
+				if (fit != this->foodManager->end() && fit->data > 0) {
+					if (this->velocityManager->find(col.first.entity) == this->velocityManager->end()) {
+						fit->data -= 1;
+						antFit->data += 1;
+						this->aiManager->iter_at(antFit->entity)->data.stationary = true;
+						if (fit->data == 0) toDelete.push_back(fit->entity);
+						break;
+					}
+				}
+			}
 		}
 	}
+	for (auto e : toDelete) foodGenerator.destroy_food(e);
+}
+
+void step(std::vector<std::vector<Collision>>& collisionMap)
+{
 }

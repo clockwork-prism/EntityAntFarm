@@ -25,6 +25,7 @@ private:
 	ColorManager* colorManager;
 	TrailManager* trailManager;
 	FoodManager* foodManager;
+	AIManager* aiManager;
 
 	AntGenerator* antGenerator;
 	TrailGenerator* trailGenerator;

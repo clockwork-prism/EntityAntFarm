@@ -25,3 +25,11 @@ typedef Component<uint32_t> Food;
 typedef ComponentManager<Food, std::vector> FoodManager;
 
 typedef std::pair<Position, double> Collision;
+
+struct AIState {
+	bool stationary;
+};
+
+typedef Component<AIState> AI;
+
+typedef ComponentManager<AI, std::vector> AIManager;

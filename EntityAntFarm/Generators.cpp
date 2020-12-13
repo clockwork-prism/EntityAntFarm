@@ -16,6 +16,7 @@ Entity AntGenerator::new_ant(std::array<int32_t, 3> position)
 	this->colorManager->add_entity_component({ newEntity, color_to_int({ 255, 255, 255, 255 }) });
 	this->velocityManager->add_entity_component({ newEntity, {0, 0, 0, 0} });
 	this->foodManager->add_entity_component({ newEntity, 0 });
+	this->aiManager->add_entity_component({ newEntity, false });
 	return newEntity;
 }
 
@@ -40,4 +41,12 @@ void FoodGenerator::new_food_cluster(int32_t n, uint32_t food, std::array<int32_
 			this->new_food(food, { x + i, y + j, m });
 		}
 	}
+}
+
+void FoodGenerator::destroy_food(Entity e)
+{
+	this->entityManager->destroy_entity(e);
+	this->positionManager->remove_entity_component(e);
+	this->colorManager->remove_entity_component(e);
+	this->foodManager->remove_entity_component(e);
 }

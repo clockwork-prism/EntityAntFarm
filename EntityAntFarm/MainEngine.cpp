@@ -16,6 +16,7 @@ bool MainEngine::OnUserCreate() {
 	foodManager = new FoodManager();
 	trailManager = new TrailManager();
 	velocityManager = new VelocityManager();
+	aiManager = new AIManager();
 
 	// Generators
 	antGenerator = new AntGenerator(
@@ -23,7 +24,8 @@ bool MainEngine::OnUserCreate() {
 		positionManager,
 		colorManager,
 		foodManager,
-		velocityManager
+		velocityManager,
+		aiManager
 	);
 	trailGenerator = new TrailGenerator(
 		entityManager,
@@ -54,12 +56,16 @@ bool MainEngine::OnUserCreate() {
 		entityManager,
 		positionManager,
 		colorManager,
-		trailManager
+		trailManager,
+		foodManager,
+		velocityManager,
+		aiManager
 	);
 	aiSystem = new AISystem(
 		entityManager,
 		positionManager,
-		velocityManager
+		velocityManager,
+		aiManager
 	);
 	physicsSystem = new PhysicsSystem(
 		entityManager,

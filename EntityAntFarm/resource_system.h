@@ -11,6 +11,9 @@ private:
 	PositionManager* positionManager;
 	ColorManager* colorManager;
 	TrailManager* trailManager; 
+	FoodManager* foodManager;
+	VelocityManager* velocityManager;
+	AIManager* aiManager;
 
 	void _update_trails(std::vector<std::vector<Collision>>& collisionMap);
 
@@ -24,11 +27,17 @@ public:
 		EntityManager* _entityManager,
 		PositionManager* _positionManager,
 		ColorManager* _colorManager,
-		TrailManager* _trailManager
+		TrailManager* _trailManager,
+		FoodManager* _foodManager,
+		VelocityManager* _velocityManager,
+		AIManager* _aiManager
 	) : entityManager{ _entityManager },
 		positionManager{ _positionManager },
 		colorManager{ _colorManager },
-		trailManager{ _trailManager } {}
+		trailManager{ _trailManager },
+		foodManager{ _foodManager },
+		velocityManager{ _velocityManager },
+		aiManager{ _aiManager }{}
 
 	void step(std::vector<std::vector<Collision>>& collisionMap);
 
