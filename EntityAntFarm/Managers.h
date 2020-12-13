@@ -26,10 +26,6 @@ typedef ComponentManager<Food, std::vector> FoodManager;
 
 typedef std::pair<Position, double> Collision;
 
-struct AIState {
-	bool stationary;
-};
-
-typedef Component<AIState> AI;
+typedef Component<uint32_t> AI;
 
 typedef ComponentManager<AI, std::vector> AIManager;

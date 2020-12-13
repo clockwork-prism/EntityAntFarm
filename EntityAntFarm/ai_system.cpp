@@ -14,26 +14,36 @@ void AISystem::step(std::vector<std::vector<Collision>>& collisionMap)
 {
 	for (auto ait{ aiManager->begin() }; ait != aiManager->end(); ait++) {
 		if (entityManager->is_alive(ait->entity)) {
-			auto it = velocityManager->iter_at(ait->entity);
-			if (ait->data.stationary) {
-				ait->data.stationary = false;
-				it->data.at(2) = it->data.at(3) = 0;
+			if (ait->data & AICodes::Home) {
+				
 			}
 			else {
-				auto pit = positionManager->citer_at(it->entity);
-				std::vector<uint8_t> pool{ 0, 1, 2, 3, 4, 5, 6, 7, 8 };
-				double theta = atan2(pit->data.at(1), pit->data.at(0));
-				int dir = static_cast<int>(round(theta / RANGE));
-				if (dir < 0) dir += 8;
-				int rdir = (dir + 4) % 8;
-				pool.at(rdir) = static_cast<uint8_t>(dir);
-				for (size_t i{}; i < decisionVector.size(); i++) {
-					decisionVector.at(i) = pool.at(i % 8);
-				}
-				uint8_t choice = decisionVector.at(rand() % decisionVector.size());
-				_choice_to_velocity(choice, it);
+				_ant_ai(ait);
 			}
 		}
+	}
+}
+
+void AISystem::_ant_ai(std::vector<Trail>::iterator& ait)
+{
+	auto it = velocityManager->iter_at(ait->entity);
+	if (ait->data & AICodes::Stationary) {
+		ait->data -= AICodes::Stationary;
+		it->data.at(2) = it->data.at(3) = 0;
+	}
+	else {
+		auto pit = positionManager->citer_at(it->entity);
+		std::vector<uint8_t> pool{ 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+		double theta = atan2(pit->data.at(1), pit->data.at(0));
+		int dir = static_cast<int>(round(theta / RANGE));
+		if (dir < 0) dir += 8;
+		int rdir = (dir + 4) % 8;
+		pool.at(rdir) = static_cast<uint8_t>(dir);
+		for (size_t i{}; i < decisionVector.size(); i++) {
+			decisionVector.at(i) = pool.at(i % 8);
+		}
+		uint8_t choice = decisionVector.at(rand() % decisionVector.size());
+		_choice_to_velocity(choice, it);
 	}
 }
 

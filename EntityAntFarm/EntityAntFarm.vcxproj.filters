@@ -131,9 +131,6 @@
     <ClInclude Include="physics_system.h">
       <Filter>System Headers</Filter>
     </ClInclude>
-    <ClInclude Include="ScreenOffset.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="input_system.h">
       <Filter>System Headers</Filter>
     </ClInclude>
@@ -141,6 +138,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Generators.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="misc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

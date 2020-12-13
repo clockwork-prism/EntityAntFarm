@@ -4,6 +4,7 @@
 #include "Generators.h"
 #include "EntityManager.h"
 #include "ColorManager.h"
+#include "misc.h"
 
 class ResourceSystem {
 private:
@@ -17,7 +18,7 @@ private:
 
 	void _update_trails(std::vector<std::vector<Collision>>& collisionMap);
 
-	void _transfer_food(std::vector<std::vector<Collision>>& collisionMap);
+	void _transfer_food(std::vector<std::vector<Collision>>& collisionMap, uint32_t frameNumber);
 
 	void _incremenet_trail(std::vector<Trail>::iterator& trailIterator, std::pair<bool, std::array<int32_t, 3Ui64>>& newTrail);
 
@@ -39,7 +40,7 @@ public:
 		velocityManager{ _velocityManager },
 		aiManager{ _aiManager }{}
 
-	void step(std::vector<std::vector<Collision>>& collisionMap);
+	void step(std::vector<std::vector<Collision>>& collisionMap, uint32_t frameNumber);
 
 	static const uint32_t TRAIL_MAX = 10000;
 	static const uint32_t TRAIL_INCR = 2000;

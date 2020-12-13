@@ -1,5 +1,5 @@
 #pragma once
-#include "ScreenOffset.h"
+#include "misc.h"
 #include "olcPixelGameEngine.h"
 
 class InputSystem {

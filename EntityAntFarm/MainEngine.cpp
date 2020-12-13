@@ -72,16 +72,18 @@ bool MainEngine::OnUserCreate() {
 		positionManager,
 		velocityManager
 	);
-
+	frameNumber = 0;
 	starting_conditions_setup();
 	return true;
 }
 
 bool MainEngine::OnUserUpdate(float fElapsedTime) {
+	frameNumber += 1;
+	frameNumber %= 1000000;
 	inputSystem->step(fElapsedTime);
 	renderSystem->step();
 	std::vector<std::vector<Collision>> collisions = collision_system(*entityManager, *positionManager, *velocityManager);
-	resourceSystem->step(collisions);
+	resourceSystem->step(collisions, this->frameNumber);
 	aiSystem->step(collisions);
 	physicsSystem->step(collisions);
 	return true;
@@ -114,13 +116,13 @@ bool MainEngine::OnUserDestroy() {
 
 void MainEngine::starting_conditions_setup()
 {
-	for (int i{}; i < 20; i++) {
+	/*for (int i{}; i < 20; i++) {
 		int x = rand() % (ScreenWidth() / 8);
 		int y = rand() % (ScreenHeight() / 8);
 		x -= screenOffset.xOffset/8;
 		y -= screenOffset.yOffset/8;
 		antGenerator->new_ant({ x, y, 1 });
-	}
+	}*/
 	for (int i{}; i < 5; i++) {
 		int x = rand() % ScreenWidth();
 		int y = rand() % ScreenHeight();
@@ -137,4 +139,6 @@ void MainEngine::starting_conditions_setup()
 		green, green, green }
 	);
 	colorManager->add_entity_component(home, homeArray);
+	foodManager->add_entity_component({ home, 100 });
+	aiManager->add_entity_component({ home, AICodes::Home });
 }

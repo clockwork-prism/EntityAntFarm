@@ -1,6 +1,7 @@
 #pragma once
 #include "Managers.h"
 #include "EntityManager.h"
+#include "misc.h"
 #include <math.h>
 #include <algorithm>
 #include <random>
@@ -27,4 +28,5 @@ public:
 		decisionVector(512) {}
 
 	void step(std::vector<std::vector<Collision>>& collisionMap);
+	void _ant_ai(std::vector<Trail>::iterator& ait);
 };

@@ -171,7 +171,7 @@
     <ClInclude Include="PositionManager.h" />
     <ClInclude Include="render_system.h" />
     <ClInclude Include="resource_system.h" />
-    <ClInclude Include="ScreenOffset.h" />
+    <ClInclude Include="misc.h" />
     <ClInclude Include="StaticComponentManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

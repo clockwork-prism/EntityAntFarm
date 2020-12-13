@@ -5,7 +5,7 @@
 #include "olcPixelGameEngine.h"
 #include "Managers.h"
 #include "ColorManager.h"
-#include "ScreenOffset.h"
+#include "misc.h"
 #include <iostream>
 
 class RenderSystem {

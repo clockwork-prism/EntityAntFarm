@@ -1,10 +1,10 @@
 #include "resource_system.h"
 
 
-void ResourceSystem::step(std::vector<std::vector<Collision>>& collisionMap)
+void ResourceSystem::step(std::vector<std::vector<Collision>>& collisionMap, uint32_t frameNumber)
 {
 	_update_trails(collisionMap);
-	_transfer_food(collisionMap);
+	_transfer_food(collisionMap, frameNumber);
 }
 
 
@@ -61,7 +61,7 @@ void ResourceSystem::_update_trail_color(std::vector<Color>::iterator& cit, std:
 	cit->data = color_to_int({ 0, 0, (uint8_t)(255 * (double)it->data / TRAIL_MAX), 255 });
 }
 
-void ResourceSystem::_transfer_food(std::vector<std::vector<Collision>>& collisionMap) {
+void ResourceSystem::_transfer_food(std::vector<std::vector<Collision>>& collisionMap, uint32_t frameNumber) {
 	FoodGenerator foodGenerator{
 		this->entityManager,
 		this->positionManager,
@@ -76,18 +76,37 @@ void ResourceSystem::_transfer_food(std::vector<std::vector<Collision>>& collisi
 			if (col.second < 2) {
 				auto fit = this->foodManager->find(col.first.entity);
 				if (fit != this->foodManager->end() && fit->data > 0) {
-					if (this->velocityManager->find(col.first.entity) == this->velocityManager->end()) {
+					auto ait = this->aiManager->find(col.first.entity);
+					if (ait == this->aiManager->end()) {
 						fit->data -= 1;
 						antFit->data += 1;
-						this->aiManager->iter_at(antFit->entity)->data.stationary = true;
+						this->aiManager->iter_at(antFit->entity)->data |= AICodes::Stationary;
 						if (fit->data == 0) toDelete.push_back(fit->entity);
 						break;
+					}
+					else if (ait->data & AICodes::Home && antFit->data > 0 &&
+						     collisionVector.at(0).first.data.at(0) == 0 &&
+							 collisionVector.at(0).first.data.at(1) == 0) {
+						fit->data += antFit->data;
+						antFit->data = 0;
 					}
 				}
 			}
 		}
 	}
 	for (auto e : toDelete) foodGenerator.destroy_food(e);
+	if (frameNumber % 10 == 0) {
+		auto it{ aiManager->begin() };
+		while (!(it->data & AICodes::Home)) {
+			it++;
+		}
+		auto fit = foodManager->find(it->entity);
+		if (fit->data > 5) {
+			fit->data -= 5;
+			AntGenerator antGenerator(entityManager, positionManager, colorManager, foodManager, velocityManager, aiManager);
+			antGenerator.new_ant({ 0, 0, 0 });
+		}
+	}
 }
 
 void step(std::vector<std::vector<Collision>>& collisionMap)

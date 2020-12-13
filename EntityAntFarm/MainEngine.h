@@ -37,6 +37,8 @@ private:
 	AISystem* aiSystem;
 	PhysicsSystem* physicsSystem;
 
+	uint32_t frameNumber;
+
 public:
 	MainEngine();
 
