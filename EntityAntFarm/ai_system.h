@@ -29,4 +29,6 @@ public:
 
 	void step(std::vector<std::vector<Collision>>& collisionMap);
 	void _ant_ai(std::vector<Trail>::iterator& ait);
+	uint8_t _ant_seeking(std::vector<uint8_t>& pool, int rdir, int dir);
+	void _ant_stationary(std::vector<Trail>::iterator& ait, std::vector<Velocity>::iterator& it);
 };

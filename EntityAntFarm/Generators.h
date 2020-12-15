@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <array>
 #include "Managers.h"
+#include "misc.h"
 
 class TrailGenerator {
 private:

@@ -123,12 +123,12 @@ void MainEngine::starting_conditions_setup()
 		y -= screenOffset.yOffset/8;
 		antGenerator->new_ant({ x, y, 1 });
 	}*/
-	for (int i{}; i < 5; i++) {
-		int x = rand() % ScreenWidth();
-		int y = rand() % ScreenHeight();
+	for (int i{}; i < 500; i++) {
+		int x = (rand() % (ScreenWidth() * 10)) - ScreenWidth() * 5;
+		int y = (rand() % (ScreenHeight() * 10)) - ScreenHeight() * 5;
 		x -= screenOffset.xOffset;
 		y -= screenOffset.yOffset;
-		foodGenerator->new_food_cluster(3, 50, { x, y, 1 });
+		foodGenerator->new_food_cluster(3, 20, { x, y, 1 });
 	}
 	Entity home = entityManager->create_entity();
 	positionManager->add_entity_component({ home,{ 0,0,1 } });
@@ -139,6 +139,6 @@ void MainEngine::starting_conditions_setup()
 		green, green, green }
 	);
 	colorManager->add_entity_component(home, homeArray);
-	foodManager->add_entity_component({ home, 100 });
+	foodManager->add_entity_component({ home, 20*AntVals::Thresh + 1 });
 	aiManager->add_entity_component({ home, AICodes::Home });
 }

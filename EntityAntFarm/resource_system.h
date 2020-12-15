@@ -41,8 +41,4 @@ public:
 		aiManager{ _aiManager }{}
 
 	void step(std::vector<std::vector<Collision>>& collisionMap, uint32_t frameNumber);
-
-	static const uint32_t TRAIL_MAX = 10000;
-	static const uint32_t TRAIL_INCR = 2000;
-	static const uint32_t TRAIL_DECAY = 50;
 };

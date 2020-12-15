@@ -16,7 +16,7 @@ Entity AntGenerator::new_ant(std::array<int32_t, 3> position)
 	this->colorManager->add_entity_component({ newEntity, color_to_int({ 255, 255, 255, 255 }) });
 	this->velocityManager->add_entity_component({ newEntity, {0, 0, 0, 0} });
 	this->foodManager->add_entity_component({ newEntity, 0 });
-	this->aiManager->add_entity_component({ newEntity, false });
+	this->aiManager->add_entity_component({ newEntity, AICodes::Seeking });
 	return newEntity;
 }
 

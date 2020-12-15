@@ -28,8 +28,7 @@ void AISystem::_ant_ai(std::vector<Trail>::iterator& ait)
 {
 	auto it = velocityManager->iter_at(ait->entity);
 	if (ait->data & AICodes::Stationary) {
-		ait->data -= AICodes::Stationary;
-		it->data.at(2) = it->data.at(3) = 0;
+		_ant_stationary(ait, it);
 	}
 	else {
 		auto pit = positionManager->citer_at(it->entity);
@@ -38,13 +37,30 @@ void AISystem::_ant_ai(std::vector<Trail>::iterator& ait)
 		int dir = static_cast<int>(round(theta / RANGE));
 		if (dir < 0) dir += 8;
 		int rdir = (dir + 4) % 8;
-		pool.at(rdir) = static_cast<uint8_t>(dir);
-		for (size_t i{}; i < decisionVector.size(); i++) {
-			decisionVector.at(i) = pool.at(i % 8);
+		uint8_t choice;
+		if (ait->data & AICodes::Seeking) {
+			choice = _ant_seeking(pool, rdir, dir);
 		}
-		uint8_t choice = decisionVector.at(rand() % decisionVector.size());
+		else {
+			choice = rdir;
+		}
 		_choice_to_velocity(choice, it);
 	}
+}
+
+uint8_t AISystem::_ant_seeking(std::vector<uint8_t>& pool, int rdir, int dir)
+{
+	pool.at(rdir) = static_cast<uint8_t>(dir);
+	for (size_t i{}; i < decisionVector.size(); i++) {
+		decisionVector.at(i) = pool.at(i % 8);
+	}
+	return decisionVector.at(rand() % decisionVector.size());
+}
+
+void AISystem::_ant_stationary(std::vector<Trail>::iterator& ait, std::vector<Velocity>::iterator& it)
+{
+	ait->data ^= ait->data | AICodes::Stationary;
+	it->data.at(2) = it->data.at(3) = 0;
 }
 
 void AISystem::_choice_to_velocity(const uint8_t& choice, std::vector<Velocity>::iterator& it)
