@@ -8,16 +8,19 @@ private:
 	const EntityManager* entityManager;
 	PositionManager* positionManager;
 	VelocityManager* velocityManager;
+	HistoryManager* historyManager;
 
 	void _update_positions();
 public:
 	PhysicsSystem(
 		EntityManager* _entityManager,
 		PositionManager* _position,
-		VelocityManager* _velocity
+		VelocityManager* _velocity,
+		HistoryManager* _history
 	) : entityManager{ _entityManager },
 		positionManager{ _position },
-		velocityManager{ _velocity } {}
+		velocityManager{ _velocity },
+		historyManager{ _history } {}
 
-	void step(std::vector<std::vector<Collision>>& collisionMap);
+	void step();
 };

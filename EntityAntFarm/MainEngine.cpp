@@ -17,6 +17,8 @@ bool MainEngine::OnUserCreate() {
 	trailManager = new TrailManager();
 	velocityManager = new VelocityManager();
 	aiManager = new AIManager();
+	historyManager = new HistoryManager();
+	collisionManager = new CollisionManager();
 
 	// Generators
 	antGenerator = new AntGenerator(
@@ -25,7 +27,9 @@ bool MainEngine::OnUserCreate() {
 		colorManager,
 		foodManager,
 		velocityManager,
-		aiManager
+		aiManager,
+		historyManager,
+		collisionManager
 	);
 	trailGenerator = new TrailGenerator(
 		entityManager,
@@ -59,18 +63,29 @@ bool MainEngine::OnUserCreate() {
 		trailManager,
 		foodManager,
 		velocityManager,
-		aiManager
+		aiManager,
+		antGenerator,
+		collisionManager
 	);
 	aiSystem = new AISystem(
 		entityManager,
 		positionManager,
 		velocityManager,
-		aiManager
+		aiManager,
+		historyManager,
+		collisionManager
 	);
 	physicsSystem = new PhysicsSystem(
 		entityManager,
 		positionManager,
-		velocityManager
+		velocityManager,
+		historyManager
+	);
+	collisionSystem = new CollisionSystem(
+		entityManager,
+		positionManager,
+		velocityManager,
+		collisionManager
 	);
 	frameNumber = 0;
 	starting_conditions_setup();
@@ -82,10 +97,10 @@ bool MainEngine::OnUserUpdate(float fElapsedTime) {
 	frameNumber %= 1000000;
 	inputSystem->step(fElapsedTime);
 	renderSystem->step();
-	std::vector<std::vector<Collision>> collisions = collision_system(*entityManager, *positionManager, *velocityManager);
-	resourceSystem->step(collisions, this->frameNumber);
-	aiSystem->step(collisions);
-	physicsSystem->step(collisions);
+	collisionSystem->step();
+	resourceSystem->step(this->frameNumber);
+	aiSystem->step();
+	physicsSystem->step();
 	return true;
 }
 

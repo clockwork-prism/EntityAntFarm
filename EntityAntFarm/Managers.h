@@ -29,3 +29,11 @@ typedef std::pair<Position, double> Collision;
 typedef Component<uint32_t> AI;
 
 typedef ComponentManager<AI, std::vector> AIManager;
+
+typedef Component<std::array<int32_t, 16>> History;
+
+typedef ComponentManager<History, std::vector> HistoryManager;
+
+typedef Component<std::vector<Collision>> CollisionVector;
+
+typedef ComponentManager<CollisionVector, std::vector> CollisionManager;

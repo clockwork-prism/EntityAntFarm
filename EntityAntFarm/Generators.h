@@ -21,6 +21,7 @@ public:
 		colorManager{ _colorManager },
 		trailManager{ _trailManager } {}
 	Entity new_trail(uint32_t trail, std::array<int32_t, 3> position);
+	void destroy_trail(Entity e);
 };
 
 class AntGenerator {
@@ -31,20 +32,26 @@ private:
 	FoodManager* foodManager;
 	VelocityManager* velocityManager;
 	AIManager* aiManager;
+	HistoryManager* historyManager;
+	CollisionManager* collisionManager;
 public:
 	AntGenerator(
-		EntityManager* _entityManager = nullptr,
-		PositionManager* _positionManager = nullptr,
-		ColorManager* _colorManager = nullptr,
-		FoodManager* _foodManager = nullptr,
-		VelocityManager* _velocityManager = nullptr,
-		AIManager* _aiManager = nullptr
+		EntityManager * _entityManager, 
+		PositionManager * _positionManager, 
+		ColorManager * _colorManager, 
+		FoodManager * _foodManager, 
+		VelocityManager * _velocityManager, 
+		AIManager * _aiManager, 
+		HistoryManager * _historyManager, 
+		CollisionManager* _collisionManager
 	) : entityManager{ _entityManager },
 		positionManager{ _positionManager },
 		colorManager{ _colorManager },
 		foodManager{_foodManager},
 		velocityManager{ _velocityManager },
-		aiManager{ _aiManager } {}
+		aiManager{ _aiManager },
+		historyManager{ _historyManager },
+		collisionManager{ _collisionManager } {}
 
 	Entity new_ant(std::array<int32_t, 3> position);
 };

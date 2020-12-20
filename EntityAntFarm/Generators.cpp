@@ -9,6 +9,13 @@ Entity TrailGenerator::new_trail(uint32_t trail, std::array<int32_t, 3> position
     return newEntity;
 }
 
+void TrailGenerator::destroy_trail(Entity e) {
+	this->trailManager->remove_entity_component(e);
+	this->positionManager->remove_entity_component(e);
+	this->colorManager->remove_entity_component(e);
+	this->entityManager->destroy_entity(e);
+}
+
 Entity AntGenerator::new_ant(std::array<int32_t, 3> position)
 {
 	Entity newEntity = this->entityManager->create_entity();
@@ -17,6 +24,8 @@ Entity AntGenerator::new_ant(std::array<int32_t, 3> position)
 	this->velocityManager->add_entity_component({ newEntity, {0, 0, 0, 0} });
 	this->foodManager->add_entity_component({ newEntity, 0 });
 	this->aiManager->add_entity_component({ newEntity, AICodes::Seeking });
+	this->historyManager->add_entity_component({ newEntity, 0 });
+	this->collisionManager->add_entity_component({ newEntity, std::vector<Collision>(100, { {{0}, {0,0,0}}, 0. }) });
 	return newEntity;
 }
 

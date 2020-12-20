@@ -1,14 +1,14 @@
 #include "resource_system.h"
 
 
-void ResourceSystem::step(std::vector<std::vector<Collision>>& collisionMap, uint32_t frameNumber)
+void ResourceSystem::step(uint32_t frameNumber)
 {
-	_update_trails(collisionMap);
-	_transfer_food(collisionMap, frameNumber);
+	_update_trails();
+	_transfer_food(frameNumber);
 }
 
 
-void ResourceSystem::_update_trails(std::vector<std::vector<Collision>>& collisionMap)
+void ResourceSystem::_update_trails()
 {
 	TrailGenerator trailGenerator(
 		this->entityManager,
@@ -16,10 +16,11 @@ void ResourceSystem::_update_trails(std::vector<std::vector<Collision>>& collisi
 		this->colorManager,
 		this->trailManager
 	);
-	for (auto collisionVector : collisionMap) {
-		std::pair<bool, std::array<int32_t, 3>> newTrailPosition = { true, collisionVector.at(0).first.data };
-		for (size_t i{ 1 }; i < collisionVector.size(); i++) {
-			Collision collision = collisionVector.at(i);
+	for (auto cit = collisionManager->begin(); cit != collisionManager->end(); cit++) {
+		auto pit = positionManager->iter_at(cit->entity);
+		std::pair<bool, std::array<int32_t, 3>> newTrailPosition = { true, pit->data };
+		for (size_t i{ 0 }; i < cit->data.size(); i++) {
+			Collision collision = cit->data.at(i);
 			auto it = this->trailManager->find(collision.first.entity);
 			if (collision.second == 0 && it != this->trailManager->end()) {
 				_incremenet_trail(it, newTrailPosition);
@@ -42,10 +43,7 @@ void ResourceSystem::_update_trails(std::vector<std::vector<Collision>>& collisi
 		}
 	}
 	for (auto e : toDelete) {
-		this->entityManager->destroy_entity(e);
-		this->trailManager->remove_entity_component(e);
-		this->positionManager->remove_entity_component(e);
-		this->colorManager->remove_entity_component(e);
+		trailGenerator.destroy_trail(e);
 	}
 }
 
@@ -61,7 +59,7 @@ void ResourceSystem::_update_trail_color(std::vector<Color>::iterator& cit, std:
 	cit->data = color_to_int({ 0, 0, (uint8_t)(255 * (double)it->data / TrailIncr::Max), 255 });
 }
 
-void ResourceSystem::_transfer_food(std::vector<std::vector<Collision>>& collisionMap, uint32_t frameNumber) {
+void ResourceSystem::_transfer_food(uint32_t frameNumber) {
 	FoodGenerator foodGenerator{
 		this->entityManager,
 		this->positionManager,
@@ -69,10 +67,11 @@ void ResourceSystem::_transfer_food(std::vector<std::vector<Collision>>& collisi
 		this->foodManager
 	};
 	std::vector<Entity> toDelete{};
-	for (auto collisionVector : collisionMap) {
-		auto antFit = this->foodManager->iter_at(collisionVector.at(0).first.entity);
-		for (size_t i{ 1 }; i < collisionVector.size(); i++) {
-			Collision col = collisionVector.at(i);
+	for (auto cit = collisionManager->begin(); cit != collisionManager->end(); cit++) {
+		auto antPit = this->positionManager->iter_at(cit->entity);
+		auto antFit = this->foodManager->iter_at(cit->entity);
+		for (size_t i{ 0 }; i < cit->data.size(); i++) {
+			Collision col = cit->data.at(i);
 			if (col.second < 2) {
 				auto fit = this->foodManager->find(col.first.entity);
 				if (fit != this->foodManager->end() && fit->data > 0) {
@@ -91,8 +90,7 @@ void ResourceSystem::_transfer_food(std::vector<std::vector<Collision>>& collisi
 						}
 					}
 					else if (ait->data & AICodes::Home && antFit->data > 0 &&
-						     collisionVector.at(0).first.data.at(0) == 0 &&
-							 collisionVector.at(0).first.data.at(1) == 0) {
+							 antPit->data.at(0) == 0 && antPit->data.at(1) == 0) {
 						fit->data += antFit->data;
 						antFit->data = 0;
 						this->aiManager->iter_at(antFit->entity)->data |= AICodes::Seeking;
@@ -110,12 +108,7 @@ void ResourceSystem::_transfer_food(std::vector<std::vector<Collision>>& collisi
 		auto fit = foodManager->find(it->entity);
 		if (fit->data > AntVals::Thresh) {
 			fit->data -= AntVals::Thresh;
-			AntGenerator antGenerator(entityManager, positionManager, colorManager, foodManager, velocityManager, aiManager);
-			antGenerator.new_ant({ 0, 0, 0 });
+			antGenerator->new_ant({ 0, 0, 0 });
 		}
 	}
-}
-
-void step(std::vector<std::vector<Collision>>& collisionMap)
-{
 }
