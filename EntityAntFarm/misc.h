@@ -6,9 +6,11 @@ struct ScreenOffset {
 };
 
 struct AICodes {
-	static const uint32_t Stationary{ 0b00000001 };
-	static const uint32_t Home{ 0b00000010 };
-	static const uint32_t Seeking{ 0b00000100 };
+	static const uint32_t Stationary{ 1 };
+	static const uint32_t Home{ 2 };
+	static const uint32_t Seeking{ 4 };
+	static const uint32_t Retracing{ 8 };
+	static const uint32_t MoreFood{ 16 };
 };
 
 struct TrailIncr {

@@ -85,7 +85,9 @@ bool MainEngine::OnUserCreate() {
 		entityManager,
 		positionManager,
 		velocityManager,
-		collisionManager
+		collisionManager,
+		foodManager,
+		trailManager
 	);
 	frameNumber = 0;
 	starting_conditions_setup();

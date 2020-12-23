@@ -19,10 +19,10 @@ void ResourceSystem::_update_trails()
 	for (auto cit = collisionManager->begin(); cit != collisionManager->end(); cit++) {
 		auto pit = positionManager->iter_at(cit->entity);
 		std::pair<bool, std::array<int32_t, 3>> newTrailPosition = { true, pit->data };
-		for (size_t i{ 0 }; i < cit->data.size(); i++) {
-			Collision collision = cit->data.at(i);
-			auto it = this->trailManager->find(collision.first.entity);
-			if (collision.second == 0 && it != this->trailManager->end()) {
+		auto tcol = cit->trailCollisions;
+		for (size_t i{ 0 }; i < tcol.size(); i++) {
+			auto it = this->trailManager->iter_at(tcol.at(i).first);
+			if (tcol.at(i).second.at(0) == 0) {
 				_incremenet_trail(it, newTrailPosition);
 				newTrailPosition.first = false;
 			}
@@ -68,34 +68,36 @@ void ResourceSystem::_transfer_food(uint32_t frameNumber) {
 	};
 	std::vector<Entity> toDelete{};
 	for (auto cit = collisionManager->begin(); cit != collisionManager->end(); cit++) {
-		auto antPit = this->positionManager->iter_at(cit->entity);
-		auto antFit = this->foodManager->iter_at(cit->entity);
-		for (size_t i{ 0 }; i < cit->data.size(); i++) {
-			Collision col = cit->data.at(i);
-			if (col.second < 2) {
-				auto fit = this->foodManager->find(col.first.entity);
-				if (fit != this->foodManager->end() && fit->data > 0) {
-					auto ait = this->aiManager->find(col.first.entity);
-					if (ait == this->aiManager->end()) {
-						auto antAit = this->aiManager->iter_at(antFit->entity);
-						if (antFit->data >= AntVals::Max) {
-							if (antAit->data & AICodes::Seeking) antAit->data -= AICodes::Seeking;
-						}
-						else {
-							fit->data -= 1;
-							antFit->data += 1;
-							antAit->data |= AICodes::Stationary;
-							if (fit->data == 0) toDelete.push_back(fit->entity);
-							break;
-						}
-					}
-					else if (ait->data & AICodes::Home && antFit->data > 0 &&
-							 antPit->data.at(0) == 0 && antPit->data.at(1) == 0) {
-						fit->data += antFit->data;
-						antFit->data = 0;
-						this->aiManager->iter_at(antFit->entity)->data |= AICodes::Seeking;
-					}
+		if (!(cit->foodCollisions.empty())) {
+			auto antPit = this->positionManager->iter_at(cit->entity);
+			auto antFit = this->foodManager->iter_at(cit->entity);
+			auto antAit = this->aiManager->iter_at(antFit->entity);
+			auto fit = this->foodManager->end();
+			auto ait = this->aiManager->end();
+
+			for (size_t i{ 0 }; i < cit->foodCollisions.size(); i++) {
+				auto fcol = cit->foodCollisions.at(i);
+				if (fcol.second.at(0) < 2 && fit->data > 0) {
+					fit = foodManager->iter_at(fcol.first);
+					ait = this->aiManager->find(fcol.first);
+					if (ait == this->aiManager->end() || ait->data & AICodes::Home)
+						break;
 				}
+			}
+
+			if (fit != foodManager->end()) {
+				if (ait == this->aiManager->end() && fit->data > 0 && (antAit->data & AICodes::Seeking)) {
+					fit->data -= 1;
+					antFit->data += 1;
+					if (fit->data == 0)
+						toDelete.push_back(fit->entity);
+				}
+				else if (ait->data & AICodes::Home && antFit->data > 0 &&
+					antPit->data.at(0) == 0 && antPit->data.at(1) == 0) {
+					fit->data += antFit->data;
+					antFit->data = 0;
+				}
+
 			}
 		}
 	}

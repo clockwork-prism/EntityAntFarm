@@ -16,24 +16,26 @@ typedef Component<std::array<int, 4>> Velocity;
 
 typedef ComponentManager<Velocity, std::vector> VelocityManager;
 
-typedef Component<uint32_t> Trail;
+typedef Component<int32_t> Trail;
 
 typedef ComponentManager<Trail, std::vector>  TrailManager;
 
-typedef Component<uint32_t> Food;
+typedef Component<int32_t> Food;
 
 typedef ComponentManager<Food, std::vector> FoodManager;
-
-typedef std::pair<Position, double> Collision;
 
 typedef Component<uint32_t> AI;
 
 typedef ComponentManager<AI, std::vector> AIManager;
 
-typedef Component<std::array<int32_t, 16>> History;
+typedef Component<std::array<int32_t, 17>> History;
 
 typedef ComponentManager<History, std::vector> HistoryManager;
 
-typedef Component<std::vector<Collision>> CollisionVector;
+struct Collision {
+	Entity entity;
+	std::vector<std::pair<Entity, std::array<double, 2>>> foodCollisions;
+	std::vector<std::pair<Entity, std::array<double, 2>>> trailCollisions;
+};
 
-typedef ComponentManager<CollisionVector, std::vector> CollisionManager;
+typedef ComponentManager<Collision, std::vector> CollisionManager;

@@ -96,6 +96,15 @@ public:
 		}
 	}
 
+	auto cfind(Entity e) const {
+		if (this->_map.count(e)) {
+			return this->citer_at(e);
+		}
+		else {
+			return this->_components.cend();
+		}
+	}
+
 	bool add_entity_component(T component) {
 		if (this->_map.count(component.entity)) {
 			auto it = this->_get_component_iterator(component.entity);

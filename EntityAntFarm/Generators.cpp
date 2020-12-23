@@ -1,6 +1,6 @@
 #include "Generators.h"
 
-Entity TrailGenerator::new_trail(uint32_t trail, std::array<int32_t, 3> position)
+Entity TrailGenerator::new_trail(int32_t trail, std::array<int32_t, 3> position)
 {
     Entity newEntity = this->entityManager->create_entity();
 	this->trailManager->add_entity_component({ newEntity, trail });
@@ -25,11 +25,11 @@ Entity AntGenerator::new_ant(std::array<int32_t, 3> position)
 	this->foodManager->add_entity_component({ newEntity, 0 });
 	this->aiManager->add_entity_component({ newEntity, AICodes::Seeking });
 	this->historyManager->add_entity_component({ newEntity, 0 });
-	this->collisionManager->add_entity_component({ newEntity, std::vector<Collision>(100, { {{0}, {0,0,0}}, 0. }) });
+	this->collisionManager->add_entity_component({ newEntity, {}, {} });
 	return newEntity;
 }
 
-Entity FoodGenerator::new_food(uint32_t food, std::array<int32_t, 3> position)
+Entity FoodGenerator::new_food(int32_t food, std::array<int32_t, 3> position)
 {
 	Entity newEntity = this->entityManager->create_entity();
 	

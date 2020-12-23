@@ -20,7 +20,7 @@ public:
 		positionManager{ _positionManager },
 		colorManager{ _colorManager },
 		trailManager{ _trailManager } {}
-	Entity new_trail(uint32_t trail, std::array<int32_t, 3> position);
+	Entity new_trail(int32_t trail, std::array<int32_t, 3> position);
 	void destroy_trail(Entity e);
 };
 
@@ -73,7 +73,7 @@ public:
 		colorManager{ _colorManager },
 		foodManager{ _foodManager } {}
 
-	Entity new_food(uint32_t food, std::array<int32_t, 3> position);
+	Entity new_food(int32_t food, std::array<int32_t, 3> position);
 	void new_food_cluster(int32_t n, uint32_t food, std::array<int32_t, 3> position); 
 	void destroy_food(Entity e);
 };
