@@ -13,6 +13,10 @@ public:
 
 	void destroy_entity(Entity e);
 
+	size_t size() const {
+		return this->_registry.size();
+	}
+
 private:
 	std::vector <char> _registry;
 	std::deque <uint32_t> _freeIndeces;

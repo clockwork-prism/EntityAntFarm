@@ -4,17 +4,18 @@
 #include <algorithm>
 #include <stdexcept>
 #include <vector>
+#include <unordered_map>
 #include "Entity.h"
 #include "Component.h"
 
 template <typename T, template <typename...> class A> 
 class ComponentManager {
 protected:
-	std::map <Entity, size_t> _map;
+	std::unordered_map <uint32_t, size_t> _map;
 	A <T> _components;
 
 	auto _get_component_iterator(Entity e) {
-		size_t idx = this->_map[e];
+		size_t idx = this->_map[e.index()];
 		return this->_get_component_iterator(idx);
 	}
 
@@ -62,22 +63,22 @@ public:
 	}
 
 	T at(Entity e) {
-		size_t idx = this->_map.at(e);
+		size_t idx = this->_map.at(e.index());
 		return this->at(idx);
 	}
 
 	const T cat(Entity e) const {
-		size_t idx = this->_map.at(e);
+		size_t idx = this->_map.at(e.index());
 		return this->cat(idx);
 	}
 
 	auto iter_at(Entity e) {
-		size_t idx = this->_map.at(e);
+		size_t idx = this->_map.at(e.index());
 		return this->iter_at(idx);
 	}
 
 	auto citer_at(Entity e) const {
-		size_t idx = this->_map.at(e);
+		size_t idx = this->_map.at(e.index());
 		return this->citer_at(idx);
 	}
 
@@ -88,7 +89,7 @@ public:
 	auto cend() const { return this->_components.cend(); }
 
 	auto find(Entity e) {
-		if (this->_map.count(e)) {
+		if (this->_map.count(e.index())) {
 			return this->iter_at(e);
 		}
 		else {
@@ -97,7 +98,7 @@ public:
 	}
 
 	auto cfind(Entity e) const {
-		if (this->_map.count(e)) {
+		if (this->_map.count(e.index())) {
 			return this->citer_at(e);
 		}
 		else {
@@ -106,7 +107,7 @@ public:
 	}
 
 	bool add_entity_component(T component) {
-		if (this->_map.count(component.entity)) {
+		if (this->_map.count(component.entity.index())) {
 			auto it = this->_get_component_iterator(component.entity);
 			*it = component;
 			return true;
@@ -114,23 +115,23 @@ public:
 		else {
 			size_t idx{ this->_components.size() };
 			this->_components.push_back(component);
-			this->_map[component.entity] = idx;
+			this->_map[component.entity.index()] = idx;
 			return false;
 		}
 	}
 
 	bool remove_entity_component(const Entity e) {
-		if (!this->_map.count(e))
+		if (!this->_map.count(e.index()))
 			return false;
-		size_t idx = this->_map[e];
+		size_t idx = this->_map[e.index()];
 		size_t lastIdx = this->_components.size() - 1;
 		auto it = this->_get_component_iterator(e);
 		auto lastIt = this->_components.end();
 		lastIt--;
 		*it = *lastIt;
-		this->_map[lastIt->entity] = idx;
+		this->_map[lastIt->entity.index()] = idx;
 		this->_components.erase(lastIt);
-		this->_map.erase(e);
+		this->_map.erase(e.index());
 		return true;
 	}
 
@@ -147,7 +148,7 @@ public:
 		std::sort(this->_components.begin(), this->_components.end());
 		size_t i{ 0 };
 		for (auto c : this->_components) {
-			this->_map[c.entity] = i;
+			this->_map[c.entity.index()] = i;
 			i++;
 		}
 	}
@@ -157,7 +158,7 @@ public:
 		std::sort(this->_components.begin(), this->_components.end(), func);
 		size_t i{ 0 };
 		for (auto c : this->_components) {
-			this->_map[c.entity] = i;
+			this->_map[c.entity.index()] = i;
 			i++;
 		}
 	}

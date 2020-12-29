@@ -142,8 +142,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainEngine.cpp" />
     <ClCompile Include="Generators.cpp" />
+    <ClCompile Include="Managers.cpp" />
     <ClCompile Include="olcPixelGameEngine.cpp" />
     <ClCompile Include="physics_system.cpp" />
+    <ClCompile Include="PositionManager.cpp" />
     <ClCompile Include="render_system.cpp" />
     <ClCompile Include="resource_system.cpp" />
   </ItemGroup>

@@ -14,9 +14,9 @@ struct AICodes {
 };
 
 struct TrailIncr {
-	static const uint32_t Max = 10000;
-	static const uint32_t Increase = 2000;
-	static const uint32_t Decay = 50;
+	static const uint32_t Max = 40000;
+	static const uint32_t Increase = 4000;
+	static const uint32_t Decay = 1;
 };
 
 struct AntVals {

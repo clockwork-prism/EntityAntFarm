@@ -10,6 +10,7 @@ private:
 	PositionManager* positionManager;
 	ColorManager* colorManager;
 	TrailManager* trailManager;
+	std::map<Entity, bool> createdTrails;
 public:
 	TrailGenerator(
 		EntityManager* _entityManager = nullptr,
@@ -34,6 +35,7 @@ private:
 	AIManager* aiManager;
 	HistoryManager* historyManager;
 	CollisionManager* collisionManager;
+	std::map<Entity, bool> createdAnts;
 public:
 	AntGenerator(
 		EntityManager * _entityManager, 
@@ -62,6 +64,7 @@ private:
 	PositionManager* positionManager;
 	ColorManager* colorManager;
 	FoodManager* foodManager;
+	std::map<Entity, bool> createdFood;
 public:
 	FoodGenerator(
 		EntityManager* _entityManager = nullptr,

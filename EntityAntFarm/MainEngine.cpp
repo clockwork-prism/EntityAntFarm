@@ -11,7 +11,7 @@ bool MainEngine::OnUserCreate() {
 
 	// Managers
 	entityManager = new EntityManager();
-	positionManager = new PositionManager();
+	positionManager = new PositionManager(50);
 	colorManager = new ColorManager();
 	foodManager = new FoodManager();
 	trailManager = new TrailManager();
@@ -62,10 +62,11 @@ bool MainEngine::OnUserCreate() {
 		colorManager,
 		trailManager,
 		foodManager,
-		velocityManager,
 		aiManager,
 		antGenerator,
-		collisionManager
+		collisionManager,
+		trailGenerator,
+		foodGenerator
 	);
 	aiSystem = new AISystem(
 		entityManager,
@@ -73,7 +74,9 @@ bool MainEngine::OnUserCreate() {
 		velocityManager,
 		aiManager,
 		historyManager,
-		collisionManager
+		collisionManager,
+		foodManager,
+		trailManager
 	);
 	physicsSystem = new PhysicsSystem(
 		entityManager,
@@ -98,8 +101,8 @@ bool MainEngine::OnUserUpdate(float fElapsedTime) {
 	frameNumber += 1;
 	frameNumber %= 1000000;
 	inputSystem->step(fElapsedTime);
-	renderSystem->step();
-	collisionSystem->step();
+	renderSystem->step(velocityManager->size());
+	collisionSystem->step(30);
 	resourceSystem->step(this->frameNumber);
 	aiSystem->step();
 	physicsSystem->step();
@@ -140,7 +143,7 @@ void MainEngine::starting_conditions_setup()
 		y -= screenOffset.yOffset/8;
 		antGenerator->new_ant({ x, y, 1 });
 	}*/
-	for (int i{}; i < 500; i++) {
+	for (int i{}; i < 100; i++) {
 		int x = (rand() % (ScreenWidth() * 10)) - ScreenWidth() * 5;
 		int y = (rand() % (ScreenHeight() * 10)) - ScreenHeight() * 5;
 		x -= screenOffset.xOffset;
@@ -148,7 +151,7 @@ void MainEngine::starting_conditions_setup()
 		foodGenerator->new_food_cluster(3, 20, { x, y, 1 });
 	}
 	Entity home = entityManager->create_entity();
-	positionManager->add_entity_component({ home,{ 0,0,1 } });
+	positionManager->add_position_component({ home,{ 0,0,1 } });
 	int32_t green = color_to_int({ 0, 255, 0, 255 });
 	Array2D<int32_t> homeArray(3, 3,
 		{ green, green, green,
@@ -156,6 +159,6 @@ void MainEngine::starting_conditions_setup()
 		green, green, green }
 	);
 	colorManager->add_entity_component(home, homeArray);
-	foodManager->add_entity_component({ home, 20*AntVals::Thresh + 1 });
+	foodManager->add_entity_component({ home, 5*AntVals::Thresh + 1, RECEIVER });
 	aiManager->add_entity_component({ home, AICodes::Home });
 }

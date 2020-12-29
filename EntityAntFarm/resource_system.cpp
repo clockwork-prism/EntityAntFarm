@@ -10,15 +10,10 @@ void ResourceSystem::step(uint32_t frameNumber)
 
 void ResourceSystem::_update_trails()
 {
-	TrailGenerator trailGenerator(
-		this->entityManager,
-		this->positionManager,
-		this->colorManager,
-		this->trailManager
-	);
 	for (auto cit = collisionManager->begin(); cit != collisionManager->end(); cit++) {
 		auto pit = positionManager->iter_at(cit->entity);
 		std::pair<bool, std::array<int32_t, 3>> newTrailPosition = { true, pit->data };
+		newTrailPosition.second.at(2) = 0;
 		auto tcol = cit->trailCollisions;
 		for (size_t i{ 0 }; i < tcol.size(); i++) {
 			auto it = this->trailManager->iter_at(tcol.at(i).first);
@@ -28,7 +23,7 @@ void ResourceSystem::_update_trails()
 			}
 		}
 		if (newTrailPosition.first) {
-			trailGenerator.new_trail(TrailIncr::Increase, newTrailPosition.second);
+			trailGenerator->new_trail(TrailIncr::Increase, newTrailPosition.second);
 		}
 	}
 	std::vector<Entity> toDelete{};
@@ -43,7 +38,7 @@ void ResourceSystem::_update_trails()
 		}
 	}
 	for (auto e : toDelete) {
-		trailGenerator.destroy_trail(e);
+		trailGenerator->destroy_trail(e);
 	}
 }
 
@@ -56,16 +51,10 @@ void ResourceSystem::_incremenet_trail(std::vector<Trail>::iterator & trailItera
 
 void ResourceSystem::_update_trail_color(std::vector<Color>::iterator& cit, std::vector<Trail>::iterator& it)
 {
-	cit->data = color_to_int({ 0, 0, (uint8_t)(255 * (double)it->data / TrailIncr::Max), 255 });
+	cit->data = color_to_int({ 0, 0, 255, (uint8_t)(255 * (double)it->data / TrailIncr::Max) });
 }
 
 void ResourceSystem::_transfer_food(uint32_t frameNumber) {
-	FoodGenerator foodGenerator{
-		this->entityManager,
-		this->positionManager,
-		this->colorManager,
-		this->foodManager
-	};
 	std::vector<Entity> toDelete{};
 	for (auto cit = collisionManager->begin(); cit != collisionManager->end(); cit++) {
 		if (!(cit->foodCollisions.empty())) {
@@ -73,26 +62,22 @@ void ResourceSystem::_transfer_food(uint32_t frameNumber) {
 			auto antFit = this->foodManager->iter_at(cit->entity);
 			auto antAit = this->aiManager->iter_at(antFit->entity);
 			auto fit = this->foodManager->end();
-			auto ait = this->aiManager->end();
 
-			for (size_t i{ 0 }; i < cit->foodCollisions.size(); i++) {
-				auto fcol = cit->foodCollisions.at(i);
-				if (fcol.second.at(0) < 2 && fit->data > 0) {
+			for (auto& fcol : cit->foodCollisions) {
+				if (fcol.second.at(0) < 2 && fcol.second.at(2) != TRANSPORTER) {
 					fit = foodManager->iter_at(fcol.first);
-					ait = this->aiManager->find(fcol.first);
-					if (ait == this->aiManager->end() || ait->data & AICodes::Home)
-						break;
+					break;
 				}
 			}
 
 			if (fit != foodManager->end()) {
-				if (ait == this->aiManager->end() && fit->data > 0 && (antAit->data & AICodes::Seeking)) {
+				if (fit->kind == GIVER && fit->data > 0 && (antAit->data & AICodes::Seeking)) {
 					fit->data -= 1;
 					antFit->data += 1;
 					if (fit->data == 0)
 						toDelete.push_back(fit->entity);
 				}
-				else if (ait->data & AICodes::Home && antFit->data > 0 &&
+				else if (fit->kind == RECEIVER && antFit->data > 0 &&
 					antPit->data.at(0) == 0 && antPit->data.at(1) == 0) {
 					fit->data += antFit->data;
 					antFit->data = 0;
@@ -101,16 +86,15 @@ void ResourceSystem::_transfer_food(uint32_t frameNumber) {
 			}
 		}
 	}
-	for (auto e : toDelete) foodGenerator.destroy_food(e);
+	for (auto e : toDelete) foodGenerator->destroy_food(e);
 	if (frameNumber % 10 == 0) {
-		auto it{ aiManager->begin() };
-		while (!(it->data & AICodes::Home)) {
+		auto it{ foodManager->begin() };
+		while (it->kind != RECEIVER) {
 			it++;
 		}
-		auto fit = foodManager->find(it->entity);
-		if (fit->data > AntVals::Thresh) {
-			fit->data -= AntVals::Thresh;
-			antGenerator->new_ant({ 0, 0, 0 });
+		if (it->data > AntVals::Thresh) {
+			it->data -= AntVals::Thresh;
+			antGenerator->new_ant({ 0, 0, 2 });
 		}
 	}
 }

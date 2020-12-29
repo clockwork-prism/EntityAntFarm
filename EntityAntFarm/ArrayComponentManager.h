@@ -33,7 +33,7 @@ public:
 	}
 
 	bool add_entity_component(Entity e, Array2D<N> arr) {
-		if (this->_map.count(e)) {
+		if (this->_map.count(e.index())) {
 			auto it = this->_get_component_iterator(e);
 			this->_arrayComponents.at(it->data) = arr;
 			return true;
@@ -57,18 +57,18 @@ public:
 
 	bool remove_entity_component(const Entity e) {
 		// Duplicating code in parent class, but these variables are needed again below
-		if (!this->_map.count(e))
+		if (!this->_map.count(e.index()))
 			return false;
-		size_t idx = this->_map[e];
+		size_t idx = this->_map[e.index()];
 		size_t lastIdx = this->_components.size() - 1;
 		auto it = this->_get_component_iterator(e);
 		auto lastIt = this->_components.end();
 		lastIt--;
 		*it = *lastIt;
-		this->_map[lastIt->entity] = idx;
+		this->_map[lastIt->entity.index()] = idx;
 		this->_freeIndeces.push_back(it->data);
 		this->_components.erase(lastIt);
-		this->_map.erase(e);
+		this->_map.erase(e.index());
 
 		return true;
 	}

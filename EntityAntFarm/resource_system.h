@@ -13,11 +13,12 @@ private:
 	ColorManager* colorManager;
 	TrailManager* trailManager; 
 	FoodManager* foodManager;
-	VelocityManager* velocityManager;
 	AIManager* aiManager;
 	CollisionManager* collisionManager;
 	
 	AntGenerator* antGenerator;
+	TrailGenerator* trailGenerator;
+	FoodGenerator* foodGenerator;
 
 	void _update_trails();
 
@@ -33,19 +34,21 @@ public:
 		ColorManager* _colorManager,
 		TrailManager* _trailManager,
 		FoodManager* _foodManager,
-		VelocityManager* _velocityManager,
 		AIManager* _aiManager,
 		AntGenerator* _antGenerator,
-		CollisionManager* _collisionManager
+		CollisionManager* _collisionManager,
+		TrailGenerator* _trailGenerator,
+		FoodGenerator* _foodGenerator
 	) : entityManager{ _entityManager },
 		positionManager{ _positionManager },
 		colorManager{ _colorManager },
 		trailManager{ _trailManager },
 		foodManager{ _foodManager },
-		velocityManager{ _velocityManager },
 		aiManager{ _aiManager },
 		antGenerator{ _antGenerator },
-		collisionManager{ _collisionManager } {}
+		collisionManager{ _collisionManager },
+		trailGenerator{ _trailGenerator },
+		foodGenerator{ _foodGenerator } {}
 
 	void step(uint32_t frameNumber);
 };
