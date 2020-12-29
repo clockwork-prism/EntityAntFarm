@@ -1,36 +1,51 @@
 #include "collision_system.h"
 
-std::vector<std::vector<Collision>> collision_system(
-    const EntityManager& entityManager, const PositionManager& position, 
-    const VelocityManager & velocity, unsigned collisionRange
-) 
+void CollisionSystem::step(unsigned collisionRange) 
 {
-    std::vector<std::vector<std::pair<Position, double>>> collisionMap(
-        velocity.size(), std::vector<Collision>(100, { {{0}, {0,0,0}}, 0. })
-    );
-
     double collisionRange2 = std::pow(collisionRange, 2);
-    size_t i{};
-    for (auto vit1 = velocity.cbegin(); vit1 != velocity.cend(); vit1++) {
-        auto pit1 = position.citer_at(vit1->entity);
-        std::vector<Collision> collisionVector{ {*pit1, 0} };
-        collisionVector.reserve(100);
-        for (auto pit2 = position.cbegin(); pit2 != position.cend(); pit2++) {
-            if (pit1->entity != pit2->entity) {
-                double distance = std::pow(pit1->data[0] - pit2->data[0], 2) + 
-                                  std::pow(pit1->data[1] - pit2->data[1], 2);
-                if (distance <= collisionRange2) {
-                    collisionVector.push_back({*pit2, std::sqrt(distance)});
+    for (auto cit1 = collisionManager->begin(); cit1 != collisionManager->end(); cit1++) {
+        auto vit1 = velocityManager->citer_at(cit1->entity);
+        auto pit1 = positionManager->citer_at(vit1->entity);
+        cit1->foodCollisions.clear();
+        cit1->trailCollisions.clear();
+        for (int bx{ -1 }; bx < 2; bx++) for (int by{ -1 }; by < 2; by++) {
+            int32_t x = pit1->data.at(0) + (positionManager->bucketWidth * bx);
+            int32_t y = pit1->data.at(1) + (positionManager->bucketWidth * by);
+            if (!positionManager->has_bucket(x, y))
+                continue;
+            auto bucket = positionManager->clist_at(x, y);
+            for (auto e : bucket) {
+                auto pit2 = positionManager->citer_at(e);
+                if (pit1->entity != pit2->entity) {
+                    double distance = std::pow(pit1->data[0] - pit2->data[0], 2) +
+                        std::pow(pit1->data[1] - pit2->data[1], 2);
+                    if (distance <= collisionRange2) {
+                        auto tit = trailManager->cfind(pit2->entity);
+                        if (tit != trailManager->cend()) cit1->trailCollisions.push_back(
+                            {
+                                tit->entity,
+                                {
+                                    sqrt(distance),
+                                    atan2(pit1->data[1] - pit2->data[1], pit1->data[0] - pit2->data[0])
+                                }
+                            }
+                        );
+                        else {
+                            auto fit = foodManager->cfind(pit2->entity);
+                            if (fit != foodManager->cend()) cit1->foodCollisions.push_back(
+                                {
+                                    fit->entity,
+                                    {
+                                        sqrt(distance),
+                                        atan2(pit1->data[1] - pit2->data[1], pit1->data[0] - pit2->data[0]),
+                                        static_cast<double>(fit->kind)
+                                    }
+                                }
+                            );
+                        }
+                    }
                 }
             }
         }
-        //std::sort(collisionVector.begin(), collisionVector.end(),
-          //  [](Collision& lhs, Collision& rhs) {
-            //    return lhs.second < rhs.second;
-            //});
-        collisionMap.at(i) = (collisionVector);
-        i++;
     }
-
-    return collisionMap;
 }

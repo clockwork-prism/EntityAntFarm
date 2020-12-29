@@ -7,6 +7,8 @@
 #include "ColorManager.h"
 #include "misc.h"
 #include <iostream>
+#include <string>
+#include <sstream>
 
 class RenderSystem {
 private:
@@ -15,10 +17,13 @@ private:
 	const ColorManager* colorManager;
 	const ScreenOffset* offset;
 	olc::PixelGameEngine* engine;
+	std::vector<int> depthBuffer;
 
 	void _render_color(std::vector<Position>::const_iterator& it);
 
 	void _render_pixel(const int32_t& icolor, std::vector<Position>::const_iterator& it);
+
+	void _draw_pixel(int x, int y, int z, const int32_t& icolor);
 
 	void _render_pixel_array(std::vector<Position>::const_iterator& it);
 
@@ -33,8 +38,9 @@ public:
 		positionManager{ _position},
 		colorManager{ _color},
 		offset{ _offset},
-		engine{ _engine } {}
+		engine{ _engine },
+		depthBuffer( _engine->ScreenHeight() * _engine->ScreenWidth() + 1 ) {}
 
-	void step();
+	void step(size_t nAnts);
 };
 

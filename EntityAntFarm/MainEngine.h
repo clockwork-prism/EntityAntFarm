@@ -26,6 +26,8 @@ private:
 	TrailManager* trailManager;
 	FoodManager* foodManager;
 	AIManager* aiManager;
+	HistoryManager* historyManager;
+	CollisionManager* collisionManager;
 
 	AntGenerator* antGenerator;
 	TrailGenerator* trailGenerator;
@@ -36,6 +38,7 @@ private:
 	ResourceSystem* resourceSystem;
 	AISystem* aiSystem;
 	PhysicsSystem* physicsSystem;
+	CollisionSystem* collisionSystem;
 
 	uint32_t frameNumber;
 

@@ -75,6 +75,12 @@
     <ClCompile Include="Generators.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Managers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PositionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="olcPixelGameEngine.h">
@@ -140,11 +146,11 @@
     <ClInclude Include="Generators.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PositionManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="misc.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionManager.h">
+      <Filter>Manager Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

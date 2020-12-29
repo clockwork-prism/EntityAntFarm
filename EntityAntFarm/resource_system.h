@@ -13,12 +13,16 @@ private:
 	ColorManager* colorManager;
 	TrailManager* trailManager; 
 	FoodManager* foodManager;
-	VelocityManager* velocityManager;
 	AIManager* aiManager;
+	CollisionManager* collisionManager;
+	
+	AntGenerator* antGenerator;
+	TrailGenerator* trailGenerator;
+	FoodGenerator* foodGenerator;
 
-	void _update_trails(std::vector<std::vector<Collision>>& collisionMap);
+	void _update_trails();
 
-	void _transfer_food(std::vector<std::vector<Collision>>& collisionMap, uint32_t frameNumber);
+	void _transfer_food(uint32_t frameNumber);
 
 	void _incremenet_trail(std::vector<Trail>::iterator& trailIterator, std::pair<bool, std::array<int32_t, 3Ui64>>& newTrail);
 
@@ -30,15 +34,21 @@ public:
 		ColorManager* _colorManager,
 		TrailManager* _trailManager,
 		FoodManager* _foodManager,
-		VelocityManager* _velocityManager,
-		AIManager* _aiManager
+		AIManager* _aiManager,
+		AntGenerator* _antGenerator,
+		CollisionManager* _collisionManager,
+		TrailGenerator* _trailGenerator,
+		FoodGenerator* _foodGenerator
 	) : entityManager{ _entityManager },
 		positionManager{ _positionManager },
 		colorManager{ _colorManager },
 		trailManager{ _trailManager },
 		foodManager{ _foodManager },
-		velocityManager{ _velocityManager },
-		aiManager{ _aiManager }{}
+		aiManager{ _aiManager },
+		antGenerator{ _antGenerator },
+		collisionManager{ _collisionManager },
+		trailGenerator{ _trailGenerator },
+		foodGenerator{ _foodGenerator } {}
 
-	void step(std::vector<std::vector<Collision>>& collisionMap, uint32_t frameNumber);
+	void step(uint32_t frameNumber);
 };

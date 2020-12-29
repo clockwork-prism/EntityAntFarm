@@ -6,15 +6,17 @@ struct ScreenOffset {
 };
 
 struct AICodes {
-	static const uint32_t Stationary{ 0b00000001 };
-	static const uint32_t Home{ 0b00000010 };
-	static const uint32_t Seeking{ 0b00000100 };
+	static const uint32_t Stationary{ 1 };
+	static const uint32_t Home{ 2 };
+	static const uint32_t Seeking{ 4 };
+	static const uint32_t Retracing{ 8 };
+	static const uint32_t MoreFood{ 16 };
 };
 
 struct TrailIncr {
-	static const uint32_t Max = 10000;
-	static const uint32_t Increase = 2000;
-	static const uint32_t Decay = 50;
+	static const uint32_t Max = 40000;
+	static const uint32_t Increase = 4000;
+	static const uint32_t Decay = 1;
 };
 
 struct AntVals {
